@@ -1,0 +1,100 @@
+
+.swiper-container{
+	height: 468px;
+}
+.swiper-container img{
+	width: 100%;
+}
+.naver{
+	height: 52px;
+	margin-top: 40px;
+}
+.nav{
+	width: 1180px;
+	height: 50px;
+	background: #F9F9F9;
+	margin: 0 auto;
+	border: 1px solid #DDD;
+}
+.nav li{
+	float: left;
+	line-height: 50px;
+	padding:  0 30px;
+	border-right: 1px solid #DDD
+}
+
+.nav li:hover{
+	background: #FFFFFF;
+	cursor: pointer;
+	height: 51px;
+}
+.star-bg{
+	width: 90px;
+	height: 14px;
+	background: url(../img/star-no.png);
+	display: inline-block;
+}
+.star{
+	width: 63px;
+	background: url(../img/star-yes.png);
+	display: block;
+	height: 14px;
+}
+.main ul{
+	overflow: hidden;
+	margin: 0 auto;
+	width: 1180px;
+}
+.main ul li{
+	float: left;
+	margin-top: 40px;
+}
+.main ul li:last-of-type{
+	margin-bottom: 40px;
+}
+.main ul li img{
+	float: left;
+	width: 300px;
+	height: 200px;
+	margin: 0 20px;
+}
+.main h3{
+	margin:10px 0;
+}
+.right-content{
+	float: left;
+}
+.top i{
+	font-style: normal;
+	color: #666;
+	font-weight: bold;
+	font-size: 12px;
+	margin-right: 10px;
+}
+.top span{
+	color: #999;
+	margin-right: 5px;
+	font-size: 12px;
+}
+.top b{
+	color: #F7B42C;
+}
+.top p{
+	color:#747f8c;
+	margin-top: 10px;
+	width: 500px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.top{
+	height: 180px;
+	overflow:hidden;
+}
+.bottom{
+	height: 20px;
+}
+.bottom span{
+	font-size: 12px;
+	color: #999;
+}

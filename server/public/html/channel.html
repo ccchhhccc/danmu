@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>频道</title>
+		<link rel="stylesheet" type="text/css" href="../css/channel.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+	</head>
+	<body>
+		<!--头部-->
+		<div class="header">
+			<div class="head">
+				<ul>
+					<li>首页</li>
+					<li>频道</li>
+					<li>系列</li>
+					<li>专题</li>
+					<li>活动</li>
+					<li>活动</li>
+				</ul>
+				<div class="user">
+					<a href="html/register.html">注册</a>
+					<a href="html/login.html">登录</a>
+				</div>
+			</div>
+		</div>
+		<!--主体-->
+		<div class="main">
+			<div class="content">
+				<h3>频道分类</h3>
+				<div class="">
+					<ul>
+						<li class="channelli">
+							<div class="move">
+								<img src="../img/c1.jpg" class="channel"/>
+								<span>#创意#</span>
+							</div>
+							<img src="../img/channel-arrow.png" class="go"/>
+						</li>
+						<li class="channelli">
+							<div class="move">
+								<img src="../img/c1.jpg" class="channel"/>
+								<span>#创意#</span>
+							</div>
+							<img src="../img/channel-arrow.png" class="go"/>
+						</li>
+						<li class="channelli">
+							<div class="move">
+								<img src="../img/c1.jpg" class="channel"/>
+								<span>#创意#</span>
+							</div>
+							<img src="../img/channel-arrow.png" class="go"/>
+						</li>
+						<li class="channelli">
+							<div class="move">
+								<img src="../img/c1.jpg" class="channel"/>
+								<span>#创意#</span>
+							</div>
+							<img src="../img/channel-arrow.png" class="go"/>
+						</li>
+						<li class="channelli">
+							<div class="move">
+								<img src="../img/c1.jpg" class="channel"/>
+								<span>#创意#</span>
+							</div>
+							<img src="../img/channel-arrow.png" class="go"/>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--footer-->
+	<div class="footer">
+		<div class="foot">
+			<p>重庆理工大学计算机科学与技术学院</p>
+			<p>11403080320 陈海超   毕业设计</p>
+			<p>支持弹幕的云视频播放平台的设计与实现</p>
+		</div>
+	</div>
+	</body>
+</html>
+<script src="../lib/jquery.js"></script>
+<script>
+	$(function(){
+		$('.channelli').on('mouseover',function(){
+			$(this).find('.move').stop().animate({
+				left:'-45px'
+			},300)
+		})
+		$('.channelli').on('mouseout',function(){
+			$(this).find('.move').stop().animate({
+				left:'0'
+			},300)
+		})
+	})
+</script>

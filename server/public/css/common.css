@@ -1,0 +1,52 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+.header{
+	background: #F9F9F9;
+}
+.head{
+	width: 1180px;
+	height: 34px;
+	margin: 0 auto;
+}
+ul,li{
+	list-style: none;
+}
+a{
+	text-decoration: none;
+}
+.head li{
+	float: left;
+	height: 34px;
+	margin: 0 15px;
+	line-height: 34px;
+}
+.head li:hover{
+	font-weight: 800;
+	cursor: pointer;
+}
+.user{
+	float: right;
+	height: 34px;
+	line-height: 34px;
+}
+.user a{
+	color: #000000;	
+	margin: 0 10px;
+}
+.footer{
+	height: 110px;
+	background: #222;
+	overflow: hidden;
+}
+.foot{
+	width: 1180px;
+	margin: 20px auto;
+	text-align: center;
+}
+.foot p{
+	color: #fff;
+	margin: 10px;
+	font-size: 12px;
+}

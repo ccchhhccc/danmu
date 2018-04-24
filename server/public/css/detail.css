@@ -1,0 +1,35 @@
+.main-body{
+	width: 1180px;
+	margin: 40px auto;
+	overflow: hidden;
+}
+.left{
+	width: 800px;
+	float: left;
+}
+.right{
+	margin-left: 820px;
+}
+.star-bg{
+	width: 90px;
+	height: 14px;
+	background: url(../img/star-no.png);
+	display: inline-block;
+}
+.star{
+	width: 63px;
+	background: url(../img/star-yes.png);
+	display: block;
+	height: 14px;
+}
+.main-user{
+	margin: 15px 0px;
+}
+.main-title span{
+	font-size: 12px;
+	color: #999;
+	margin-right: 10px;
+}
+.main-title b{
+	color: #F7B42C;
+}

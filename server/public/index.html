@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>首页</title>
+	<link rel="stylesheet" type="text/css" href="css/index.css"/>
+	<link rel="stylesheet" type="text/css" href="css/swiper-3.4.2.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/common.css"/>
+	<script src="lib/jquery.js"></script>
+	<script src="lib/swiper.js"></script>
+</head>
+<body>
+	<!--头部-->
+	<div class="header">
+		<div class="head">
+			<ul>
+				<li>首页</li>
+				<li>频道</li>
+				<li>系列</li>
+				<li>专题</li>
+				<li>活动</li>
+				<li>活动</li>
+			</ul>
+			<div class="user">
+				<a href="html/register.html">注册</a>
+				<a href="html/login.html">登录</a>
+			</div>
+		</div>
+	</div>
+	<!--轮播图-->
+	<div class="swiper-container">
+	    <div class="swiper-wrapper">
+	          <div class="swiper-slide"><img src="img/s1.jpg"/></div>
+		      <div class="swiper-slide"><img src="img/s2.jpg"/></div>
+		      <div class="swiper-slide"><img src="img/s3.jpeg"/></div>
+		      <div class="swiper-slide"><img src="img/s4.jpg"/></div>
+	    </div>
+	    <div class="swiper-pagination"></div>
+	</div>
+	<div class="naver">
+		<div class="nav">
+			<ul>
+				<li>最新推荐</li>
+				<li>热门排行</li>
+				<li>星级精选</li>
+				<li>随便看看</li>
+			</ul>
+		</div>
+	</div>
+	<div class="main">
+		<ul>
+			<li>
+				<img src="img/l1.jpg"/>
+				<div class="right-content">
+					<div class="top">
+						<h3>追忆张国荣情怀短片《当爱已成往事》</h3>
+						<div class="author">
+							<span>影片作者:</span>
+							<i>陈海超</i>
+							<div class="star-bg">
+								<span class="star"></span>
+							</div>
+							<b>6.8分</b>
+						</div>
+						<p>别留恋岁月中我无意的柔情万种，别问我是否言不由衷。</p>
+					</div>
+					<div class="bottom">
+						<span>12小时前</span>
+					</div>
+				</div>
+			</li>
+			<li>
+				<img src="img/l1.jpg"/>
+				<div class="right-content">
+					<div class="top">
+						<h3>追忆张国荣情怀短片《当爱已成往事》</h3>
+						<div class="author">
+							<span>影片作者:</span>
+							<i>陈海超</i>
+							<div class="star-bg">
+								<span class="star"></span>
+							</div>
+							<b>6.8分</b>
+						</div>
+						<p>别留恋岁月中我无意的柔情万种，别问我是否言不由衷。</p>
+					</div>
+					<div class="bottom">
+						<span>12小时前</span>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<!--footer-->
+	<div class="footer">
+		<div class="foot">
+			<p>重庆理工大学计算机科学与技术学院</p>
+			<p>11403080320 陈海超   毕业设计</p>
+			<p>支持弹幕的云视频播放平台的设计与实现</p>
+		</div>
+	</div>
+</body>
+</html>
+<script>
+	$(function(){
+		new Swiper ('.swiper-container', {
+			// 如果需要分页器
+			pagination: '.swiper-pagination',
+			paginationClickable :true,
+			autoplayDisableOnInteraction:false,
+			autoplay:2000,
+			loop: true,
+			// 如果需要前进后退按钮
+			nextButton: '.swiper-button-next',
+			prevButton: '.swiper-button-prev'
+	
+		})
+	})
+</script>

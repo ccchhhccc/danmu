@@ -1,0 +1,59 @@
+.main{
+	overflow: hidden;
+	background: #F1F1F1;
+}
+.content{
+	width: 1208px;
+	margin:  0 auto;
+}
+.main h3{
+	font-size: 28px;
+	color: #666;
+	margin: 20px 0;
+	margin-left: 15px;
+}
+.content li{
+	width: 272px;
+	height: 182px;
+	float: left;
+	overflow: hidden;
+	background: skyblue;
+	position: relative;
+	overflow: hidden;
+	margin: 20px 15px;
+}
+.go{
+	position: absolute;
+	width: 9px;
+	height: 15px;
+	right: 20px;
+	top: 50%;
+	margin-top: -8px;
+	z-index: 0;
+}
+.channel{
+	width: 100%;
+	height: 100%;
+	display: block;
+	position: absolute;
+}
+.move{
+	width: 272px;
+	height: 182px;
+	position: absolute;
+	z-index: 2;
+	line-height: 272px;
+	text-align: center;
+}
+.move span{
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	line-height: 100px;
+	color: #FFFFFF;
+	left: 50%;
+	top: 50%;
+	margin-left: -50px;
+	margin-top: -50px;
+	font-size: 20px;
+}

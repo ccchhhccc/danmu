@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/detail.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/danmuplayer.css"/>
+		<script src="../lib/jquery.js"></script>
+		<script src="../lib/danmuplayer.min.js"></script>
+	</head>
+	<body>
+		<!--头部-->
+		<div class="header">
+			<div class="head">
+				<ul>
+					<li>首页</li>
+					<li>频道</li>
+					<li>系列</li>
+					<li>专题</li>
+					<li>活动</li>
+					<li>活动</li>
+				</ul>
+				<div class="user">
+					<a href="html/register.html">注册</a>
+					<a href="html/login.html">登录</a>
+				</div>
+			</div>
+		</div>
+		
+		<!--主体-->
+		<div class="main-body">
+			<div class="main-title">
+				<h3>互帮互助软萌恋爱动画《手太短的鳄鱼》</h3>
+				<div class="main-user">
+					<span>陈海超</span>
+					<span>发布于</span>
+					<span>2018-04-08</span>
+					<span>频道： 动画</span>
+					<div class="star-bg">
+						<span class="star"></span>
+					</div>
+					<b>6.8分</b>
+				</div>
+			</div>
+			
+			<div class="left">
+				<div id="danmup"></div>
+			</div>
+			<div class="right">
+				
+			</div>
+		</div>
+		
+		
+		<!--footer-->
+		<div class="footer">
+			<div class="foot">
+				<p>重庆理工大学计算机科学与技术学院</p>
+				<p>11403080320 陈海超   毕业设计</p>
+				<p>支持弹幕的云视频播放平台的设计与实现</p>
+			</div>
+		</div>
+	</body>
+</html>
+<script>
+	$(function(){
+		
+		$("#danmup").DanmuPlayer({
+		  src:"../video/c.mp4",       //视频源
+		  width:800,			//视频宽度
+		  height:440			//视频高度
+		});
+	
+	})
+</script>
