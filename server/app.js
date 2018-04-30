@@ -50,6 +50,8 @@ var carousel = require('./routes/carousel.js')
 var channel = require('./routes/channel.js')
 var validatecode = require('./routes/validatecode.js')
 var leval = require('./routes/leval.js')
+var video = require('./routes/video.js')
+var recommend = require('./routes/recommend.js')
 
 //设置静态文件夹
 app.use(express.static('public'));
@@ -73,6 +75,10 @@ channel.listen(app,conn)
 validatecode.listen(app,conn)
 //经验等级模块
 leval.listen(app,conn)
+//经验等级模块
+video.listen(app,conn)
+//推荐管理
+recommend.listen(app,conn)
 
 app.listen(2255);
 

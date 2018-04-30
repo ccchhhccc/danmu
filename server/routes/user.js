@@ -98,7 +98,7 @@ module.exports.listen = function(app,conn){
         })
     })
     
-    //获取用户信息
+    //经验+1
     app.post('/user/addLeval',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");
     	var sql = `select * from user where id = ${req.body.id}`
