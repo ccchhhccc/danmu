@@ -52,6 +52,8 @@ var validatecode = require('./routes/validatecode.js')
 var leval = require('./routes/leval.js')
 var video = require('./routes/video.js')
 var recommend = require('./routes/recommend.js')
+var comment = require('./routes/comment.js')
+var reply = require('./routes/reply.js')
 
 //设置静态文件夹
 app.use(express.static('public'));
@@ -77,8 +79,13 @@ validatecode.listen(app,conn)
 leval.listen(app,conn)
 //经验等级模块
 video.listen(app,conn)
-//推荐管理
+//推荐管理模块
 recommend.listen(app,conn)
+//评论管理模块
+comment.listen(app,conn)
+//回复管理模块
+reply.listen(app,conn)
+
 
 app.listen(2255);
 

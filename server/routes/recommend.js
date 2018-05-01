@@ -57,5 +57,19 @@ module.exports.listen = function(app,conn){
             }
         })
     })
+    
+    //新增推荐
+    app.post('/recommend/add',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sql = `insert into recommend(v_id,addtime,sort) values(${req.body.v_id} , '${new Date().getTime()}' , 1)`
+    	console.log(sql)
+        conn.query(sql,function(err,result){
+            if(err){
+                res.send('err')
+            }else{
+            	res.send('success')
+            }
+        })
+    })
  
 }
