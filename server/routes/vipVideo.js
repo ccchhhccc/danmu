@@ -1,0 +1,75 @@
+
+//vip视频管理模块
+module.exports.listen = function(app,conn){
+    
+    //查找所有推荐
+    app.post('/vip',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sql = `select vipVideo.id as id, video.v_name , video.v_url , channel.name as channelname , vipVideo.addtime , user.name as username , vipVideo.sort , vipVideo.v_id from vipVideo , video , channel , user where user.id = video.u_id and video.c_id = channel.c_id and vipVideo.v_id = video.id order by vipVideo.sort`
+    	console.log(sql)
+        conn.query(sql,function(err,result){
+            if(err){
+                res.send('err')
+            }else{
+            	res.send(result)
+            }
+        })
+    })
+    
+    //修改排序
+    app.post('/vip/update/sort',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sql = `update vipVideo set sort = ${req.body.sort} where id = ${req.body.id}`
+    	console.log(sql)
+        conn.query(sql,function(err,result){
+            if(err){
+                res.send('err')
+            }else{
+            	res.send('success')
+            }
+        })
+    })
+    
+    //获取详情
+    app.post('/vip/id',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sql = `select * from vipVideo where id = ${req.body.id}`
+    	console.log(sql)
+        conn.query(sql,function(err,result){
+            if(err){
+                res.send('err')
+            }else{
+            	res.send(result[0])
+            }
+        })
+    })
+    
+    //删除
+    app.post('/vip/del',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sql = `delete from vipVideo where id = ${req.body.id}`
+    	console.log(sql)
+        conn.query(sql,function(err,result){
+            if(err){
+                res.send('err')
+            }else{
+            	res.send('success')
+            }
+        })
+    })
+    
+    //新增推荐
+    app.post('/vip/add',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sql = `insert into vipVideo(v_id,addtime,sort) values(${req.body.v_id} , '${new Date().getTime()}' , 1)`
+    	console.log(sql)
+        conn.query(sql,function(err,result){
+            if(err){
+                res.send('err')
+            }else{
+            	res.send('success')
+            }
+        })
+    })
+ 
+}

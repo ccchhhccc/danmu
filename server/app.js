@@ -54,6 +54,7 @@ var video = require('./routes/video.js')
 var recommend = require('./routes/recommend.js')
 var comment = require('./routes/comment.js')
 var reply = require('./routes/reply.js')
+var vipVideo = require('./routes/vipVideo.js')
 
 //设置静态文件夹
 app.use(express.static('public'));
@@ -85,6 +86,8 @@ recommend.listen(app,conn)
 comment.listen(app,conn)
 //回复管理模块
 reply.listen(app,conn)
+//vip管理模块
+vipVideo.listen(app,conn)
 
 
 app.listen(2255);

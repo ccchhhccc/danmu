@@ -44,18 +44,18 @@ module.exports.listen = function(app,conn){
 	    })
     })
     
-    //分页查找未审核的视频    
+    //分页查审核的视频    排序   播放量  、 硬币 、 评分
     app.post('/video/sort',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");
     	var obj = {}
     	//获取总条数
-    	var countSql = `select count(*) as count  from video ${req.body.c_id ?  'where video.c_id ='+ req.body.c_id : ''}`
+    	var countSql = `select video.* , channel.name as channelname , user.name as username ${req.body.sortname=='avg' ? ' , avg(grade.num) as avg':''} from video , user , channel ${req.body.sortname=='avg'? ',grade':''} where ${req.body.c_id ?  'video.c_id ='+ req.body.c_id+' and ' : ''}   user.id = video.u_id and channel.c_id = video.c_id and (video.v_status = 1 or video.v_status = 3) ${req.body.sortname=='avg'? ' and grade.v_id = video.id GROUP BY video.id':''} order by ${req.body.sortname} desc `
     	//获取数据
-    	var contentSql = `select video.* , channel.name as channelname , user.name as username from video , user , channel where ${req.body.c_id ?  'video.c_id ='+ req.body.c_id+' and ' : ''}   user.id = video.u_id and channel.c_id = video.c_id and video.v_status = 1 order by ${req.body.sortname} desc LIMIT ${pageNum*(req.body.page -1)} , ${pageNum}`
+    	var contentSql = `select video.* , channel.name as channelname , user.name as username ${req.body.sortname=='avg' ? ' , avg(grade.num) as avg':''} from video , user , channel ${req.body.sortname=='avg'? ',grade':''} where ${req.body.c_id ?  'video.c_id ='+ req.body.c_id+' and ' : ''}   user.id = video.u_id and channel.c_id = video.c_id and (video.v_status = 1 or video.v_status = 3) ${req.body.sortname=='avg'? ' and grade.v_id = video.id GROUP BY video.id':''} order by ${req.body.sortname} desc LIMIT ${pageNum*(req.body.page -1)} , ${pageNum}`
     	console.log(contentSql)
     	//数据查询
         conn.query(countSql,function(err,result){
-            obj.total = result[0].count
+            obj.total = result.length
             conn.query(contentSql,function(err,result){
 	            obj.data = result
 	            obj.currpage = Number(req.body.page)
