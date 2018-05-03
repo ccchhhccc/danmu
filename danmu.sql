@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2018-05-02 23:39:17
+Date: 2018-05-04 00:34:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -125,13 +125,32 @@ INSERT INTO `hf` VALUES ('2', '13', ' 22222222', '2018-5-1 21:05:38', '14', '1')
 INSERT INTO `hf` VALUES ('2', '13', ' 222', '2018-5-1 21:07:19', '13', '1');
 
 -- ----------------------------
+-- Table structure for irregularity
+-- ----------------------------
+DROP TABLE IF EXISTS `irregularity`;
+CREATE TABLE `irregularity` (
+  `i_id` int(11) NOT NULL AUTO_INCREMENT,
+  `u_id` int(11) NOT NULL,
+  `starttime` varchar(20) NOT NULL,
+  `time` varchar(20) NOT NULL,
+  `reason` varchar(100) NOT NULL,
+  PRIMARY KEY (`i_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of irregularity
+-- ----------------------------
+INSERT INTO `irregularity` VALUES ('1', '19', '1524111048524', '200000', '为所欲为');
+INSERT INTO `irregularity` VALUES ('3', '14', '1525364065939', '40000000', 'weisuoyuwei');
+
+-- ----------------------------
 -- Table structure for leval
 -- ----------------------------
 DROP TABLE IF EXISTS `leval`;
 CREATE TABLE `leval` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL,
-  `value` int(50) NOT NULL,
+  `value` bigint(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
@@ -142,7 +161,7 @@ INSERT INTO `leval` VALUES ('2', '铂金', '12345678');
 INSERT INTO `leval` VALUES ('5', '黄金', '233');
 INSERT INTO `leval` VALUES ('6', '青铜', '122');
 INSERT INTO `leval` VALUES ('7', '白银', '123');
-INSERT INTO `leval` VALUES ('8', '砖石', '1234567891');
+INSERT INTO `leval` VALUES ('8', '砖石', '1234567891111111111');
 
 -- ----------------------------
 -- Table structure for pl
@@ -198,16 +217,22 @@ CREATE TABLE `user` (
   `brief` varchar(50) DEFAULT NULL,
   `headurl` varchar(200) NOT NULL,
   `status` int(11) NOT NULL,
-  `leval` int(50) NOT NULL,
+  `leval` bigint(50) NOT NULL,
   `registertime` varchar(200) NOT NULL,
+  `sex` int(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('13', '手机用户17623085842', '17623085842', '12345', null, null, 'http://localhost:2255/uploads/defaulturl.jpg', '1', '3', '1524111048524');
-INSERT INTO `user` VALUES ('14', 'chc', '1111', '12345', null, null, 'http://localhost:2255/uploads/defaulturl.jpg', '1', '3', '1524111222222');
+INSERT INTO `user` VALUES ('13', '手机用户17623085842', '17623085842', '12345', null, null, 'http://localhost:2255/uploads/defaulturl.jpg', '1', '3', '1524111048524', '1');
+INSERT INTO `user` VALUES ('14', 'chc', '1111', '12345', null, null, 'http://localhost:2255/uploads/defaulturl.jpg', '2', '3', '1524111222222', '0');
+INSERT INTO `user` VALUES ('15', 'testuser', '2222', '12345', null, null, '222', '1', '1', '1524111255555', '1');
+INSERT INTO `user` VALUES ('16', 'user1', '333', '12345', null, null, '333', '1', '2', '1521545232321', '1');
+INSERT INTO `user` VALUES ('17', 'user2', '444', '123', null, null, '213', '1', '2', '1521545232322', '1');
+INSERT INTO `user` VALUES ('18', 'u4', '555', '123', null, null, '21', '1', '5', '1521545232355', '1');
+INSERT INTO `user` VALUES ('19', 'u5', '666', '123', null, null, '12', '2', '2352', '1521545232147', '0');
 
 -- ----------------------------
 -- Table structure for validatecode
