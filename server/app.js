@@ -55,13 +55,14 @@ var recommend = require('./routes/recommend.js')
 var comment = require('./routes/comment.js')
 var reply = require('./routes/reply.js')
 var vipVideo = require('./routes/vipVideo.js')
+var irregularity = require('./routes/irregularity.js')
 
 //设置静态文件夹
 app.use(express.static('public'));
 app.use(express.static('static'));
 //数据库链接
 var conn = mysql.createConnection({
-    host     : 'localhost',
+    host     : '127.0.0.1',
     user     : 'root',
     password : 'root',
     database : 'danmu'
@@ -88,6 +89,8 @@ comment.listen(app,conn)
 reply.listen(app,conn)
 //vip管理模块
 vipVideo.listen(app,conn)
+//封禁管理模块
+irregularity.listen(app,conn)
 
 
 app.listen(2255);

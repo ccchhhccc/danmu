@@ -1,4 +1,6 @@
 module.exports.listen = function(app,conn){
+    //分页查询，每页十条
+    let pageNum = 6
     
     //管理员登录
     app.post('/admin/login',function(req,res){
@@ -34,7 +36,7 @@ module.exports.listen = function(app,conn){
 				res.send('err')
 			}else{
 				//插入数据库
-				sql = `insert into user (name,phone,pwd,headurl,status,leval,registertime) values('手机用户${req.body.phone}' , '${req.body.phone}' , '${req.body.pwd}' , 'localhost:2255/uploads/defaulturl.jpg' , 1 , 1 , '${new Date().getTime()}')`
+				sql = `insert into user (name,phone,pwd,headurl,status,leval,registertime,sex) values('手机用户${req.body.phone}' , '${req.body.phone}' , '${req.body.pwd}' , 'localhost:2255/uploads/defaulturl.jpg' , 1 , 1 , '${new Date().getTime()}',1)`
 				conn.query(sql,function(err,result){
 					res.send('success')
 				})
@@ -116,6 +118,62 @@ module.exports.listen = function(app,conn){
 		            }
 		        })
             }
+        })
+    })
+    
+    //获取所有用户信息   分页查找
+    app.post('/userlist/sort',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var obj = {}
+    	//获取总条数
+    	var countSql = `select * from user where (name like '%${req.body.fiter}%' or phone like '%${req.body.fiter}%' or signname like '%${req.body.fiter}%' or brief like '%${req.body.fiter}%') ${req.body.status==''? '':' and status = '+req.body.status}`
+    	//获取数据
+    	var contentSql = `select * from user where (name like '%${req.body.fiter}%' or phone like '%${req.body.fiter}%' or signname like '%${req.body.fiter}%' or brief like '%${req.body.fiter}%') ${req.body.status==''? '':' and status = '+req.body.status}  ${req.body.sortname==''?'':' order by '+req.body.sortname+' desc '}  LIMIT ${pageNum*(req.body.page -1)} , ${pageNum}`
+    	console.log(countSql)
+    	console.log(contentSql)
+    	//数据查询
+        conn.query(countSql,function(err,result){
+            obj.total = result.length
+            conn.query(contentSql,function(err,result){
+	            obj.data = result
+	            obj.currpage = Number(req.body.page)
+	            res.send(obj)
+	        })
+        })
+    })
+    
+    //更改用户状态
+    app.post('/user/status',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sql = `update user set status = ${req.body.status} where id = ${req.body.id}`
+    	console.log(sql)
+        conn.query(sql,function(err,result){
+            if(err){
+                res.send('err')
+            }else{
+            	res.send('success')
+            }
+        })
+    })
+    
+    //获取  违规  用户信息   分页查找
+    app.post('/user/irregularity',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var obj = {}
+    	//获取总条数
+    	var countSql = `select * from user,irregularity where (name like '%${req.body.fiter}%' or phone like '%${req.body.fiter}%' or signname like '%${req.body.fiter}%' or brief like '%${req.body.fiter}%')  and status = 2 and user.id =irregularity.u_id `
+    	//获取数据
+    	var contentSql = `select * from user,irregularity where (name like '%${req.body.fiter}%' or phone like '%${req.body.fiter}%' or signname like '%${req.body.fiter}%' or brief like '%${req.body.fiter}%')  and status = 2 and user.id = irregularity.u_id ${req.body.sortname==''?'':' order by '+req.body.sortname+' desc '}  LIMIT ${pageNum*(req.body.page -1)} , ${pageNum}`
+    	console.log(countSql)
+    	console.log(contentSql)
+    	//数据查询
+        conn.query(countSql,function(err,result){
+            obj.total = result.length
+            conn.query(contentSql,function(err,result){
+	            obj.data = result
+	            obj.currpage = Number(req.body.page)
+	            res.send(obj)
+	        })
         })
     })
 }
