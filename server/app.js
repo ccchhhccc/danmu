@@ -56,6 +56,8 @@ var comment = require('./routes/comment.js')
 var reply = require('./routes/reply.js')
 var vipVideo = require('./routes/vipVideo.js')
 var irregularity = require('./routes/irregularity.js')
+var inform = require('./routes/inform.js')
+var admin = require('./routes/admin.js')
 
 //设置静态文件夹
 app.use(express.static('public'));
@@ -91,6 +93,10 @@ reply.listen(app,conn)
 vipVideo.listen(app,conn)
 //封禁管理模块
 irregularity.listen(app,conn)
+//举报管理模块
+inform.listen(app,conn)
+//管理员管理模块
+admin.listen(app,conn)
 
 
 app.listen(2255);

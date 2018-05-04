@@ -160,10 +160,11 @@ module.exports.listen = function(app,conn){
     app.post('/user/irregularity',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");
     	var obj = {}
+    	var nowtime = new Date().getTime()
     	//获取总条数
-    	var countSql = `select * from user,irregularity where (name like '%${req.body.fiter}%' or phone like '%${req.body.fiter}%' or signname like '%${req.body.fiter}%' or brief like '%${req.body.fiter}%')  and status = 2 and user.id =irregularity.u_id `
+    	var countSql = `select * from user,irregularity where (name like '%${req.body.fiter}%' or phone like '%${req.body.fiter}%' or signname like '%${req.body.fiter}%' or brief like '%${req.body.fiter}%')  and status = 2 and user.id =irregularity.u_id and (irregularity.time+irregularity.starttime)>${nowtime}`
     	//获取数据
-    	var contentSql = `select * from user,irregularity where (name like '%${req.body.fiter}%' or phone like '%${req.body.fiter}%' or signname like '%${req.body.fiter}%' or brief like '%${req.body.fiter}%')  and status = 2 and user.id = irregularity.u_id ${req.body.sortname==''?'':' order by '+req.body.sortname+' desc '}  LIMIT ${pageNum*(req.body.page -1)} , ${pageNum}`
+    	var contentSql = `select * from user,irregularity where (name like '%${req.body.fiter}%' or phone like '%${req.body.fiter}%' or signname like '%${req.body.fiter}%' or brief like '%${req.body.fiter}%')  and status = 2 and user.id = irregularity.u_id and (irregularity.time+irregularity.starttime)>${nowtime} ${req.body.sortname==''?'':' order by '+req.body.sortname+' desc '}  LIMIT ${pageNum*(req.body.page -1)} , ${pageNum}`
     	console.log(countSql)
     	console.log(contentSql)
     	//数据查询
@@ -174,6 +175,22 @@ module.exports.listen = function(app,conn){
 	            obj.currpage = Number(req.body.page)
 	            res.send(obj)
 	        })
+        })
+    })
+    
+    //获取  违规  用户信息   所有
+    app.post('/user/irregularity/all',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var obj = {}
+    	var nowtime = new Date().getTime()
+    	//获取数据
+    	var countSql = `select * from user,irregularity where  status = 2 and user.id =irregularity.u_id and (irregularity.time+irregularity.starttime)>${nowtime}`
+    	console.log(countSql)
+    	//数据查询
+        conn.query(countSql,function(err,result){
+            obj.total = result.length
+            obj.data = result
+            res.send(obj)
         })
     })
 }
