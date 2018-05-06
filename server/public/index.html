@@ -17,11 +17,11 @@
 		<div class="head">
 			<ul>
 				<li>首页</li>
-				<li>频道</li>
-				<li>系列</li>
-				<li>专题</li>
-				<li>活动</li>
-				<li>活动</li>
+				<li><a href="http://localhost:2255/html/channel.html">频道</a></li>
+				<li>热门</li>
+				<li>最新</li>
+				<li>vip视频</li>
+				<li>排行榜</li>
 			</ul>
 			<div class="user">
 				<a href="html/register.html">注册</a>
@@ -32,10 +32,10 @@
 	<!--轮播图-->
 	<div class="swiper-container">
 	    <div class="swiper-wrapper">
-	          <div class="swiper-slide"><img src="img/s1.jpg"/></div>
+	          <!--<div class="swiper-slide"><img src="img/s1.jpg"/></div>
 		      <div class="swiper-slide"><img src="img/s2.jpg"/></div>
 		      <div class="swiper-slide"><img src="img/s3.jpeg"/></div>
-		      <div class="swiper-slide"><img src="img/s4.jpg"/></div>
+		      <div class="swiper-slide"><img src="img/s4.jpg"/></div>-->
 	    </div>
 	    <div class="swiper-pagination"></div>
 	</div>
@@ -103,19 +103,4 @@
 	</div>
 </body>
 </html>
-<script>
-	$(function(){
-		new Swiper ('.swiper-container', {
-			// 如果需要分页器
-			pagination: '.swiper-pagination',
-			paginationClickable :true,
-			autoplayDisableOnInteraction:false,
-			autoplay:2000,
-			loop: true,
-			// 如果需要前进后退按钮
-			nextButton: '.swiper-button-next',
-			prevButton: '.swiper-button-prev'
-	
-		})
-	})
-</script>
+<script src="js/index.js"></script>

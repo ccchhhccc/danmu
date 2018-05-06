@@ -44,6 +44,8 @@ module.exports.listen = function(app,conn){
 	                    }
 	                })
 	               
+	            }else{
+	            	response.send('err')
 	            }
 	        }, function (err) {
 	            console.log(err)
@@ -73,31 +75,7 @@ module.exports.listen = function(app,conn){
         })
     })
 
-    app.post('/register',function(req,res){
-    	res.append("Access-Control-Allow-Origin","*");
-        var sql = `select * from code where phone = '${req.body.phone}'`;
-        conn.query(sql,function(err,result){
-            if(err){
-                res.send('err')
-            }else{
-                if(result.length!=0){
-                    if(req.body.code==result[0].code){
-                        conn.query(`insert into user values('${req.body.phone}','${req.body.password}')`,function(err,result){
-                            if(err){
-                                return
-                            }else{
-                                res.send('success')
-                            }
-                        })
-                    }else{
-                        res.send('err')
-                    }
-                }else{
-                    res.send('err')
-                }
-            }
-        })
-    })
+    
 }
 
 function GetRandomNum(n){

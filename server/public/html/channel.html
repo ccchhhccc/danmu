@@ -5,6 +5,7 @@
 		<title>频道</title>
 		<link rel="stylesheet" type="text/css" href="../css/channel.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+		<script src="../lib/jquery.js"></script>
 	</head>
 	<body>
 		<!--头部-->
@@ -28,9 +29,9 @@
 		<div class="main">
 			<div class="content">
 				<h3>频道分类</h3>
-				<div class="">
+				<div class="allChannel">
 					<ul>
-						<li class="channelli">
+						<!--<li class="channelli">
 							<div class="move">
 								<img src="../img/c1.jpg" class="channel"/>
 								<span>#创意#</span>
@@ -64,7 +65,7 @@
 								<span>#创意#</span>
 							</div>
 							<img src="../img/channel-arrow.png" class="go"/>
-						</li>
+						</li>-->
 					</ul>
 				</div>
 			</div>
@@ -79,18 +80,5 @@
 	</div>
 	</body>
 </html>
-<script src="../lib/jquery.js"></script>
-<script>
-	$(function(){
-		$('.channelli').on('mouseover',function(){
-			$(this).find('.move').stop().animate({
-				left:'-45px'
-			},300)
-		})
-		$('.channelli').on('mouseout',function(){
-			$(this).find('.move').stop().animate({
-				left:'0'
-			},300)
-		})
-	})
-</script>
+
+<script src="../js/channel.js"></script>

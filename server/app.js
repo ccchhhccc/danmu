@@ -3,6 +3,8 @@ var mysql = require('mysql');
 var app = express();
 var bodyparser = require('body-parser');
 var multer = require('multer');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 
 //application / json解析
 app.use(bodyparser.json());
@@ -30,6 +32,13 @@ var storage = multer.diskStorage({
 var upload = multer({
     storage: storage
 })
+app.use(cookieParser('sessiontest'));  
+//配置session
+app.use(session({  
+	resave: true, // don't save session if unmodified  
+	saveUninitialized: false, // don't create session until something stored  
+	secret: 'sessiontest'
+})); 
 
 //监听文件上传路由
 app.post("/upload", upload.any(), function (req, res) {

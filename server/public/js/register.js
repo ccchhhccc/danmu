@@ -1,0 +1,105 @@
+//发送验证码
+$('#getCode').click(function(){
+	var reg = /^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/
+	if(!reg.test($('#phone').val())){
+		$('#notic').html('请输入正确的手机码号').css({
+			display:'block'
+		})
+		return
+	}else{
+		$('#notic').css({
+			display:'none'
+		})
+	}
+	$.ajax({
+		type:"post",
+		url:"http://localhost:2255/code/getCode",
+		async:true,
+		data:{
+			phone:$('#phone').val()
+		},
+		success:function(data){
+			$('#getCode').html('已发送')
+		}
+	});
+})
+
+//注册
+$('#register').click(function(){
+	//去空格
+	$('#phone').val($('#phone').val().trim())
+	$('#code').val($('#code').val().trim())
+	$('#pwd').val($('#pwd').val().trim())
+	//判断空
+	if($('#phone').val()==''){
+		$('#notic').html('请输入手机码号').css({
+			display:'block'
+		})
+		return
+	}
+	if($('#code').val()==''){
+		$('#notic').html('请输入验证码').css({
+			display:'block'
+		})
+		return
+	}
+	if($('#pwd').val()==''){
+		$('#notic').html('请输入密码').css({
+			display:'block'
+		})
+		return
+	}
+	var flag = false
+	//发送请求
+	$.ajax({
+		type:"post",
+		url:"http://localhost:2255/code/validate",
+		async:false,
+		data:{
+			phone:$('#phone').val(),
+			code:$('#code').val()
+		},
+		success:function(data){
+			if(data=='success'){
+				flag = true
+			}else{
+				flag = false
+			}
+		}
+	});
+	if(flag){
+		$.ajax({
+			type:"post",
+			url:"http://localhost:2255/user/register",
+			async:false,
+			data:{
+				phone:$('#phone').val(),
+				pwd:$('#pwd').val()
+			},
+			success:function(data){
+				if(data=='err'){
+					$('#notic').html('该手机号码已被注册').css({
+						display:'block'
+					})
+				}else{
+					$('#muhu').css({
+						display:'block'
+					})
+					$('#layer').css({
+						display:'block'
+					})
+				}
+			}
+		});
+	}else{
+		$('#notic').html('手机号码和验证码不匹配').css({
+			display:'block'
+		})
+	}
+	
+})
+
+//跳转登录页面
+$('#btn').click(function(){
+	location.href = 'http://localhost:2255/html/login.html'
+})

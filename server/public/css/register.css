@@ -7,3 +7,92 @@ input{width: 300px;height: 46px;margin: 20px 0;margin-left: 20px;text-indent: 10
 #getCode{margin-left:20px ;}
 #register{display: block;background: #d04335;height: 44px;text-align: center;line-height: 44px;width: 300px;margin: 10px 0px 20px 20px;color: #fff;}
 p{font-size:12px;color:#D04335;margin: 10px 20px 20px 20px;}
+#notic{
+	display:none;
+}
+#muhu {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 11;
+  display:none;
+}
+
+#layer {
+  width: 512px;
+  height: 352px;
+  background: #fff;
+  z-index: 12;
+  position: absolute;
+  left: 50%;
+  margin-left: -256px;
+  text-align: center;
+  top:150px;
+  display:none;
+}
+
+#layer i {
+  display: inline-block;
+  width: 88px;
+  height: 88px;
+  background: #fff;
+  border: 4px solid #edf8e7;
+  border-radius: 50%;
+  margin-top: 35px;
+}
+
+#layer em {
+  height: 5px;
+  width: 25px;
+  position: absolute;
+  background: #a5dc86;
+  border-radius: 2px;
+  left: 50%;
+  margin-left: -26px;
+  top: 89px;
+  transform: rotate(45deg);
+}
+
+#layer b {
+  height: 5px;
+  width: 47px;
+  position: absolute;
+  background: #a5dc86;
+  border-radius: 2px;
+  left: 50%;
+  margin-left: -13px;
+  top: 83px;
+  transform: rotate(-45deg);
+}
+
+
+#layer h3 {
+  color: #575757;
+  font-size: 30px;
+  margin-top: 18px;
+}
+
+#layer p {
+  color: #797979;
+  margin: 25px 0;
+}
+
+#layer a {
+  display: inline-block;
+  color: #fff;
+  background: #aedef4;
+  border-radius: 5px;
+  padding: 10px 32px;
+}
+
+
+#con {
+  background: #d0d0d0;
+  margin-right: 10px;
+}
+
+#tocar {
+  background: #dd6b55;
+}

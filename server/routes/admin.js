@@ -1,7 +1,46 @@
 
 //管理员管理模块
 module.exports.listen = function(app,conn){
-	
+	//管理员登录
+    app.post('/admin/login',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+        conn.query(`select * from admin where loginname = '${req.body.name}' and password = '${req.body.password}'`,function(err,result){
+            if(err){
+                res.send('err')
+            }else{
+                if(result.length!=0){
+                    res.send({
+                    	msg:'success',
+                    	name:result[0].name,
+                    	id:result[0].id
+                    })
+                }else{
+                    res.send({
+                    	msg:'err'
+                    })
+                }
+                
+            }
+        })
+    })
+    
+    //验证管理员是否登录
+    app.post('/admin/isLogin',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	conn.query(`select * from admin where id = ${req.body.id} `,function(err,result){
+            if(err){
+                res.send('err')
+            }else{
+                if(result.length!=0){
+                    res.send('success')
+                }else{
+                    res.send('err')
+                }
+                
+            }
+        })
+    })
+    
 	//查找全部管理员
     app.post('/admin',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");
