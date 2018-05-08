@@ -1,0 +1,106 @@
+.main{
+	overflow: hidden;
+	background: #F1F1F1;
+}
+.content{
+	width: 1208px;
+	margin:  0 auto;
+}
+.main h3{
+	font-size: 28px;
+	color: #666;
+	margin: 20px 0;
+	margin-left: 15px;
+}
+.main p{
+	margin-bottom: 20px;
+	font-size: 14px;
+	margin-left: 15px;
+}
+.main .active{
+	color: #E74C3C;
+}
+.main a{
+	margin-right: 10px;
+}
+.main a:hover{
+	color: #E74C3C;
+}
+.allList{
+	width: 1208px;
+	margin: 0 auto;
+}
+.allList ul{
+	overflow: hidden;
+}
+.allList ul li{
+	float: left;
+	width: 272px;
+	background: #FFF;
+	overflow: hidden;
+	margin: 15px;
+}
+.imgbox{
+	width: 272px;
+	height: 181px;
+	overflow: hidden;
+}
+.allList img{
+	width: 272px;
+	height: 181px;
+	display: block;
+	transition: 0.5s;
+}
+.allList img:hover{
+	transform: scale(1.08);
+}
+.v-title{
+	padding: 12px;
+}
+.v-title h4{
+	height: 72px;
+    overflow: hidden;
+    word-break: break-all;
+    word-wrap: break-word;
+    font-size: 14px;
+    line-height: 20px;
+    color: rgb(51, 51, 51);
+}
+.info{
+	height: 18px;
+	font-size: 14px;
+}
+.star-bg{
+	width: 90px;
+	height: 14px;
+	background: url(../img/star-no.png);
+	display: inline-block;
+	margin-left: 12px;
+}
+.star{
+	width: 63px;
+	background: url(../img/star-yes.png);
+	display: block;
+	height: 14px;
+}
+.comment , .like{
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	vertical-align: top;
+	
+}
+.comment{
+	background: url(../img/comment.png);
+	background-size: auto 100%;
+}
+.like{
+	background: url(../img/like.png);
+}
+.v-title span{
+	display: inline-block;
+	width: 26px;
+}
+.v-title b{
+	color: #F7B42C;
+}
