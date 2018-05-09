@@ -1,0 +1,62 @@
+.allList li{
+	overflow: hidden;
+	background: #FFF;
+	border-bottom: 1px solid #e5e9ef;
+	transition: .2s;
+	padding: 20px;
+	margin: 5px;
+}
+.allList li:hover{
+	box-shadow: 0 2px 5px #ccc;
+}
+.num{
+	float: left;
+	width: 70px;
+	height: 70px;
+	line-height: 70px;
+	text-align: center;
+	font-size: 36px;
+	color: #b8c0cc;
+	font-weight: 700;
+}
+.tab img{
+	width: 114px;
+	height: 70px;
+	float: left;
+	margin-right: 20px;
+	margin-left: 20px;
+	border-radius: 0;
+}
+.info{
+	float: left;
+}
+.info h5{
+	margin-top: 5px;
+	margin-bottom: 20px;
+}
+.info i{
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+}
+.info span{
+	display: inline-block;
+	width: 50px;
+	color:#99a2aa;
+	font-size: 13px;
+}
+.seenum{
+	background: url(../img/icons.png) no-repeat;
+	background-position: -282px -90px;
+}
+.danmunum{
+	background: url(../img/icons.png) no-repeat;
+	background-position: -282px -218px;
+}
+.author{
+	background: url(../img/icons.png) no-repeat;
+	background-position: -282px -154px;
+}
+.info .authorname{
+	width: 150px;
+}

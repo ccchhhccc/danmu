@@ -1,0 +1,153 @@
+html{
+	background: #f4f5f7;
+}
+.main{
+	margin:0 auto;
+	width: 1180px;
+	position: relative;
+	height: 200px;
+}
+.mainbg{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+}
+.bottom-info{
+	overflow: hidden;
+	position: absolute;
+	bottom: 20px;
+	margin-left: 20px;
+}
+.user-head{
+	width: 64px;
+	height: 64px;
+	float: left;
+	border-radius: 50%;
+	margin-right: 20px;
+}
+.user-info{
+	float: left;
+}
+.user-info h3{
+	display: inline-block;
+    margin-right: 5px;
+    font-weight: 700;
+    line-height: 18px;
+    font-size: 18px;
+    vertical-align: middle;
+    color: #FFFFFF;
+}
+.user-info span{
+	display: inline-block;
+    padding: 1px 3px;
+    background: skyblue;
+    font-size: 12px;
+    color: #FFFFFF;
+    border-radius: 4px;
+}
+.user-info p{
+	font-size: 12px;
+    color: #d6dee4;
+    margin-top: 16px;
+}
+.bar{
+	width: 1180px;
+	height: 66px;
+	background: #fff;
+	margin: 0 auto;
+	margin-bottom: 10px;
+}
+.bar ul{
+	overflow: hidden;
+}
+.bar ul li{
+	float: left;
+	padding:0 8px ;
+	height: 66px;
+	line-height: 66px;
+	font-size: 13px;
+	cursor: pointer;
+}
+.bar ul li:hover{
+	color: #00a1d6;
+}
+.active{
+	color: #00a1d6;
+}
+.tab{
+	width: 1180px;
+	background: #FFFFFF;
+	margin: 0 auto;
+	margin-bottom: 20px;
+}
+.tab h3{
+	font-size: 18px;
+	color: #222;
+	font-weight: 500;
+	padding: 20px 0px;
+	margin: 0 20px;
+	border-bottom: 1px solid #e5e9ef;
+}
+.tab ul{
+	min-height: 194px;
+}
+.tab li{
+	overflow: hidden;
+	padding: 15px 0;
+	margin:0 20px;
+	border-bottom: 1px solid #e5e9ef;
+}
+.tab img{
+	float: left;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	margin-right: 20px;
+}
+.focus-info{
+	float: left;
+}
+.focus-info span{
+	font-size:16px;
+	color: inherit;
+	cursor: pointer;
+}
+.focus-info span:hover{
+	color: #00a1d6;
+}
+.focus-info p{
+	font-size:12px;
+	margin-top: 12px;
+	color: #6d757a;
+}
+.tab a{
+	float: right;
+	padding: 3px 5px;
+	font-size: 14px;
+	color: #6d757a;
+	background: #e5e9ef;
+	border-radius: 4px;
+	margin-right: 20px;
+	margin-top: 20px;
+	cursor: pointer;
+}
+.bi{
+	display: inline-block;
+	width: 25px;
+	height: 100%;
+	background: url(../img/anim-coin-small.png);
+	background-position: -19px 3px;
+	font-style: normal;
+	text-indent: 27px;
+	color: skyblue;
+}
+.bar .qiandao{
+	float: right;
+	margin-right: 20px;
+}
+.bar .qiandao a{
+	padding: 5px 10px;
+	background: skyblue;
+	border-radius: 4px;
+}

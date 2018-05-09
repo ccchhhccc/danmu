@@ -4,7 +4,10 @@
     <title>Upload Files using XMLHttpRequest - Minimal</title>
 
     <script type="text/javascript">
-      function fileSelected() {
+      function fileSelected(e) {
+      	var e = e || event
+      	var url = URL.createObjectURL(e.target.files[0])
+      	document.getElementById('video').innerHTML = `<video src="${url}" controls="controls"></video>`
         var file = document.getElementById('fileToUpload').files[0];
         if (file) {
           var fileSize = 0;
@@ -56,6 +59,7 @@
     </script>
 </head>
 <body>
+	<div id="video"></div>
   <form id="form1" enctype="multipart/form-data" method="post" >
     <div class="row">
       <label for="fileToUpload">Select a File to Upload</label><br />
