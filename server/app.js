@@ -67,6 +67,9 @@ var vipVideo = require('./routes/vipVideo.js')
 var irregularity = require('./routes/irregularity.js')
 var inform = require('./routes/inform.js')
 var admin = require('./routes/admin.js')
+var danmu = require('./routes/danmu.js')
+var collection = require('./routes/collection.js')
+var grade = require('./routes/grade.js')
 
 //设置静态文件夹
 app.use(express.static('public'));
@@ -106,7 +109,12 @@ irregularity.listen(app,conn)
 inform.listen(app,conn)
 //管理员管理模块
 admin.listen(app,conn)
-
+//弹幕模块
+danmu.listen(app,conn)
+//收藏模块
+collection.listen(app,conn)
+//评分模块
+grade.listen(app,conn)
 
 app.listen(2255);
 

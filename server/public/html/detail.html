@@ -11,6 +11,7 @@
 		<script src="../lib/jquery.js"></script>
 		<script src="../lib/danmuplayer.min.js"></script>
 		<script src="../lib/jquery.flexText.js"></script>
+		<script src="../js/main.js"></script>
 	</head>
 	<body>
 		<!--头部-->
@@ -41,7 +42,7 @@
 					<span>2018-04-08</span>
 					<span>频道： 动画</span>
 					<div class="star-bg">
-						<span class="star"></span>
+						<span class="star" style="width: 0;"></span>
 					</div>
 					<b>6.8分</b>
 				</div>
@@ -51,7 +52,25 @@
 				<div id="danmup"></div>
 			</div>
 			<div class="right">
-				
+				<!--<div class="brief">
+					<h3>简介</h3>
+					<p>zhelishijianjiezhelishijianjiezhelishijianjiezhelishijianjiezhelishijianjiezhelishijianjiezhelishijianjiezhelishijianjiezhelishijianjie</p>
+				</div>
+				<div class="num">
+					<img src="../img/nolike.png" />
+					<span>222</span>
+					<img src="../img/coin.png" />
+					<span>233</span>
+				</div>
+				<div class="grade">
+					<h3>评分</h3>
+					<span>我的评分</span>
+					<div class="star-bg toGetGrade">
+						<span class="star" style="width: 0;"></span>
+					</div>
+					<b>0分</b>
+					<a>确定</a>
+				</div>-->
 			</div>
 		</div>
 		
@@ -99,18 +118,48 @@
 				<p>支持弹幕的云视频播放平台的设计与实现</p>
 			</div>
 		</div>
+		<!--弹窗-->
+		<div id="muhu"></div>
+		<div id="layer">
+			<i></i>
+			<em></em>
+			<b></b>
+			<h3>登录提示</h3>
+			<p>登录后才能发表弹幕评论</p>
+			<a id="btn">确定</a>
+		</div>
 	</body>
 </html>
+<script src="../js/detail.js"></script>
 <script>
-	$(function(){
-		
-		$("#danmup").DanmuPlayer({
-		  src:"../video/c.mp4",       //视频源
-		  width:800,			//视频宽度
-		  height:440			//视频高度
-		});
-	
-	})
+//	$(function(){
+//		sessionStorage.setItem('videoid',1)
+//		$("#danmup").DanmuPlayer({
+//		  src:"../video/c.mp4",       //视频源
+//		  width:800,			//视频宽度
+//		  height:440,			//视频高度
+//		  urlToPostDanmu:"http://localhost:2255/danmu/save",
+//		 
+//		});
+//		var dandan = []
+//		$.ajax({
+//		  	type:"post",
+//		  	url:"http://localhost:2255/danmu/id",
+//		  	data:{
+//		  		id:sessionStorage.getItem('videoid')
+//		  	},
+//		  	async:false,
+//		  	success:function(data){
+//		  		console.log(data)
+//		  		for(var i = 0 ; i<data.length ; i++){
+//		  			dandan[i] = JSON.parse(data[i].danmu)
+//		  		}
+//		  		
+//		  		$("#danmup .danmu-div").danmu("addDanmu",dandan)
+//		  	}
+//		  });
+//		
+//	})
 </script>
 <script>
 	$(function(){
@@ -335,4 +384,18 @@
             });
         }
     });
+</script>
+<script>
+	$(function(){
+		$('.toGetGrade').on('mouseover',function(event){
+			var num = (event.offsetX/9).toFixed(1)
+			$('.toGetGrade').find('.star').css({'width':event.offsetX})
+			$(this).on('mousemove',function(event){
+				num = (event.offsetX/9).toFixed(1)
+				$('.grade').find('b').html(num+'分')
+				$('.toGetGrade').find('.star').css({'width':event.offsetX})
+			})
+		})
+	})
+	
 </script>
