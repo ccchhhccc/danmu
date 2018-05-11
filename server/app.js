@@ -70,6 +70,7 @@ var admin = require('./routes/admin.js')
 var danmu = require('./routes/danmu.js')
 var collection = require('./routes/collection.js')
 var grade = require('./routes/grade.js')
+var like = require('./routes/like.js')
 
 //设置静态文件夹
 app.use(express.static('public'));
@@ -115,6 +116,8 @@ danmu.listen(app,conn)
 collection.listen(app,conn)
 //评分模块
 grade.listen(app,conn)
+//评分模块
+like.listen(app,conn)
 
 app.listen(2255);
 

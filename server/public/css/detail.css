@@ -86,8 +86,9 @@
   height: 100%;
   position: absolute;
   top: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.4);
-  z-index: 999;
+  z-index: 9999;
   display:none;
 }
 
@@ -102,8 +103,22 @@
   text-align: center;
   top:150px;
   display:none;
-  z-index: 999;
+  z-index: 9999;
 }
+#inform {
+  width: 512px;
+  height: 295px;
+  background: #fff;
+  z-index: 12;
+  position: absolute;
+  left: 50%;
+  margin-left: -256px;
+  text-align: center;
+  top:150px;
+  display:none;
+  z-index: 9999;
+}
+
 
 
 #layer i {
@@ -143,6 +158,11 @@
   font-size: 30px;
   margin-top: 18px;
 }
+#inform h3 {
+  color: #575757;
+  font-size: 30px;
+  margin-top: 18px;
+}
 .toGetGrade{
 	cursor: pointer;
 }
@@ -150,7 +170,10 @@
   color: #797979;
   margin: 25px 0;
 }
-
+#inform p {
+  color: #797979;
+  margin: 25px 0;
+}
 #layer a {
   display: inline-block;
   color: #fff;
@@ -158,4 +181,23 @@
   border-radius: 5px;
   padding: 10px 32px;
   cursor: pointer;
+}
+#inform a {
+  display: inline-block;
+  color: #fff;
+  background: #aedef4;
+  border-radius: 5px;
+  padding: 10px 32px;
+  cursor: pointer;
+}
+#inform span {
+  color: #797979;
+  font-size: 22px;
+}
+#inform input {
+  height: 20px;
+  width: 270px;
+}
+#inform .reason {
+  padding:0 20px 25px 20px;
 }

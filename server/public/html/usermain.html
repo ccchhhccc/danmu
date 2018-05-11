@@ -50,14 +50,14 @@
 					<i class="bi">233</i>
 				</li>
 				<li class="qiandao">
-					<a>签到</a>
+					<!--<a>签到</a>-->
 				</li>
 			</ul>
 		</div>
 		<div class="tab">
 			<h3>我的视频</h3>
-			<ul>
-				<li>
+			<ul class="passvideo">
+				<!--<li>
 					<img src="../img/m.jpg" />
 					<div class="info">
 						<h5>【小缘】被害妄想携帯女子(笑)</h5>
@@ -69,11 +69,11 @@
 						<span class="authorname">15</span>
 					</div>
 					<a>已收藏</a>
-				</li>
+				</li>-->
 			</ul>
-			<h3>审核中视频</h3>
-			<ul>
-				<li>
+			<h3 class="nome">审核中视频</h3>
+			<ul class="nopassvideo nome">
+				<!--<li>
 					<img src="../img/m.jpg" />
 					<div class="info">
 						<h5>【小缘】被害妄想携帯女子(笑)</h5>
@@ -85,7 +85,7 @@
 						<span class="authorname">15</span>
 					</div>
 					<a>已收藏</a>
-				</li>
+				</li>-->
 			</ul>
 		</div>
 		<!--footer-->
@@ -96,5 +96,18 @@
 				<p>支持弹幕的云视频播放平台的设计与实现</p>
 			</div>
 		</div>
+		
+		<!--弹窗-->
+		<div id="muhu"></div>
+		<div id="layer">
+			<i></i>
+			<em></em>
+			<b></b>
+			<h3>登录提示</h3>
+			<p>登录后才能关注、收藏等</p>
+			<a class="no" style="margin-right: 10px;">取消</a>
+			<a id="topay" >登录</a>
+		</div>
 	</body>
 </html>
+<script src="../js/usermain.js"></script>

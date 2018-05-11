@@ -5,7 +5,7 @@ module.exports.listen = function(app,conn){
     //弹幕存储
     app.post('/danmu/save',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");
-    	var sql = `insert into dandan(danmu,v_id,addtime) values('${req.body.danmu}',${req.body.v_id},'${new Date().getTime()}')`
+    	var sql = `insert into dandan(danmu,v_id,addtime,u_id) values('${req.body.danmu}',${req.body.v_id},'${new Date().getTime()}',${req.body.u_id})`
     	console.log(sql)
     	conn.query(sql,function(err,result){
     		res.send(result)

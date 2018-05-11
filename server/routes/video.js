@@ -63,5 +63,54 @@ module.exports.listen = function(app,conn){
 	        })
         })
     })
+    
+    //视频投币  +1
+    app.post('/video/pay',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*")
+    	var sql = `update video set v_coin = v_coin+1 where id = ${req.body.id}` 
+    	console.log(sql)
+    	conn.query(sql,function(err,result){
+    		res.send('success')	
+    		userpay(app,conn,req.body.u_id)
+	    })
+    })
+    
+    //查找用户审核通过的视频
+    app.post('/video/userid/pass',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*")
+    	var sql = `select * from video where u_id = ${req.body.u_id} and (v_status = 1 or v_status = 3)` 
+    	console.log(sql)
+    	conn.query(sql,function(err,result){
+    		res.send(result)
+	    })
+    })
+    
+    //查找用户审核中的视频
+    app.post('/video/userid/nopass',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*")
+    	var sql = `select * from video where u_id = ${req.body.u_id} and v_status = 0` 
+    	console.log(sql)
+    	conn.query(sql,function(err,result){
+    		res.send(result)
+	    })
+    })
+    
+    //获取弹幕数量
+    app.post('/video/userid/dandannum',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*")
+    	var sql = `select count(*) as sum,dandan.v_id from dandan,video where dandan.v_id = video.id and video.u_id =${req.body.u_id} GROUP BY dandan.v_id` 
+    	console.log(sql)
+    	conn.query(sql,function(err,result){
+    		res.send(result)
+	    })
+    })
      
+}
+//用户视频-1
+function userpay(app,conn,id){
+	var sql = `update user set coinnum = coinnum-1 where id = ${id}` 
+	console.log(sql)
+	conn.query(sql,function(err,result){
+		
+    })
 }

@@ -163,7 +163,7 @@
                 alert("弹幕过长！");
                 return;
             }
-            if(sessionStorage.getItem('userid')==undefined){
+            if(sessionStorage.getItem('userid')==undefined || sessionStorage.getItem('userid')==0){
             	$('#muhu').css({'display':'block'})
 				$('#layer').css({'display':'block'})
             	return

@@ -14,7 +14,7 @@ module.exports.listen = function(app,conn){
 				res.send('err')
 			}else{
 				//插入数据库
-				sql = `insert into user (name,phone,pwd,headurl,status,leval,registertime,sex,coinnum) values('手机用户${req.body.phone}' , '${req.body.phone}' , '${req.body.pwd}' , 'localhost:2255/uploads/defaulturl.jpg' , 1 , 1 , '${new Date().getTime()}',1,0)`
+				sql = `insert into user (name,phone,pwd,headurl,status,leval,registertime,sex,coinnum,centerurl,signday) values('手机用户${req.body.phone}' , '${req.body.phone}' , '${req.body.pwd}' , 'http://localhost:2255/uploads/defaulturl.jpg' , 1 , 1 , '${new Date().getTime()}',1,0,'http://localhost:2255/uploads/usercenter.png@100Q.webp','')`
 				console.log(sql)
 				conn.query(sql,function(err,result){
 					res.send('success')
@@ -81,7 +81,9 @@ module.exports.listen = function(app,conn){
     //获取用户信息
     app.post('/user/getInfo',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");
-    	var sql = `select * from user where id = ${req.body.id}`
+    	var sql = `select * from user where user.id = ${req.body.id}`
+    	var obj = {}
+    	console.log(sql)
         conn.query(sql,function(err,result){
             if(err){
                 res.send('err')
@@ -89,10 +91,18 @@ module.exports.listen = function(app,conn){
                 if(result.length!=0){
                 	//处理密码
                 	result[0].pwd = null
-                    res.send({
-                    	msg:'success',
-                    	data:result[0]
-                    })
+                	obj.data = result[0]
+                	sql = `select SUM(v_coin) as sum from video where u_id = ${req.body.id} GROUP BY u_id`
+                	console.log(sql)
+                	conn.query(sql,function(err,result){
+			            if(result.length!=0){
+			            	obj.data.sum = result[0].sum
+			            }else{
+			            	obj.data.sum = 0
+			            }
+			            res.send(obj)
+			        })
+                    
                 }else{
                     res.send({
                     	msg:'err'
@@ -193,6 +203,17 @@ module.exports.listen = function(app,conn){
             obj.total = result.length
             obj.data = result
             res.send(obj)
+        })
+    })
+    
+    //签到
+    app.post('/user/signin',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sql = `update user set signday = ${new Date().getTime()} , coinnum = coinnum+1 where id = ${req.body.id}`
+    	console.log(sql)
+    	//数据查询
+        conn.query(sql,function(err,result){
+            res.send('success')
         })
     })
 }

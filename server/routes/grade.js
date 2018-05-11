@@ -10,7 +10,7 @@ module.exports.listen = function(app,conn){
     	conn.query(sql,function(err,result){
     		obj.count = result[0].count
     		obj.avg = result[0].avg
-    		sql = `select * from grade where u_id = ${req.body.u_id}`
+    		sql = `select * from grade where u_id = ${req.body.u_id} and v_id = ${req.body.v_id}`
 	    	console.log(sql)
 	    	conn.query(sql,function(err,result){
 	    		if(result.length==0){
@@ -24,6 +24,14 @@ module.exports.listen = function(app,conn){
     	})
     })
     
+    //新增评分
+    app.post('/grade/add',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sql = `insert into grade(v_id,u_id,num) values(${req.body.v_id},${req.body.u_id},${req.body.num}) `
+    	conn.query(sql,function(err,result){
+	    		res.send('success')
+	    	})
+    })
    
    
     

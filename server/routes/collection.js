@@ -25,7 +25,7 @@ module.exports.listen = function(app,conn){
     //新增收藏
     app.post('/collection/add',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");
-    	var sql = `insert into collection(v_id,u_id,addtime) values('${req.body.v_id}',${req.body.u_id},'${new Date().getTime()}')`
+    	var sql = `insert into collection(v_id,u_id,collectiontime) values('${req.body.v_id}',${req.body.u_id},'${new Date().getTime()}')`
     	console.log(sql)
     	conn.query(sql,function(err,result){
     		res.send('success')
@@ -36,8 +36,18 @@ module.exports.listen = function(app,conn){
     app.post('/collection/del',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");
     	console.log(req.body)
-    	conn.query(`delete from collection where u_id = ${req.body.u_id}`,function(err,result){
+    	conn.query(`delete from collection where u_id = ${req.body.u_id} and v_id = ${req.body.v_id}`,function(err,result){
     		res.send('success')
+    	})
+    })
+    
+    //查询用户的所有收藏
+    app.post('/collection/user/all',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sql = `select * from collection where u_id = ${req.body.u_id}` 
+    	console.log(sql)
+    	conn.query(sql,function(err,result){
+    		res.send(result)
     	})
     })
    
