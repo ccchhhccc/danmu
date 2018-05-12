@@ -2,7 +2,6 @@ $(function(){
 	//假装有用户
 	sessionStorage.setItem("userid", "14")
 	var u_id = location.href.split('?')[1]
-	console.log(u_id)
 	//获取查看的用户信息
 	var userinfo = {}
 	$.ajax({
@@ -35,7 +34,6 @@ $(function(){
 			}
 		}
 	});
-	console.log(myleval)
 	
 	//插入头部信息
 	var html = `<img src="${userinfo.centerurl}" class="mainbg"/>
@@ -78,6 +76,7 @@ $(function(){
 		}
 		
 	}else{
+		console.log(0)
 		$('.qiandao').html(`<a class='like'>${like?'已关注':'关注'}</a>`)
 		$('.nome').css({'display':'none'})
 		$('.set').css({'display':'none'})
@@ -133,33 +132,44 @@ $(function(){
 			},
 			async:false,
 			success:function(data){
-				$('.qiandao').html(`<a>已签到</a>`)
-				//硬币+1
-				$('.bi').html(num+1)
+				$('.qiandao').html('<a>已签到</a>')
 			}
 		});
 	})
 	
-	//获取当前用户的所有收藏
-	var collection = []
-	if(sessionStorage.getItem("userid")!=undefined && sessionStorage.getItem("userid")!=0){
-		$.ajax({
-			type:"post",
-			url:"http://localhost:2255/collection/user/all",
-			data:{
-				u_id:sessionStorage.getItem("userid")
-			},
-			async:false,
-			success:function(data){
-				collection = data
-			}
-		});
-	}
+	//获取我的收藏
+	var mycollection = []
+	$.ajax({
+		type:"post",
+		url:"http://localhost:2255/collection/user/all",
+		data:{
+			u_id:sessionStorage.getItem("userid")
+		},
+		async:false,
+		success:function(data){
+			mycollection = data
+		}
+	});
+	
+	//获取ta的收藏
+	var himcollection = []
+	$.ajax({
+		type:"post",
+		url:"http://localhost:2255/collection/user/all",
+		data:{
+			u_id:u_id
+		},
+		async:false,
+		success:function(data){
+			himcollection = data
+		}
+	});
+	
 	//获取弹幕数量
 	var dandan = []
 	$.ajax({
 		type:"post",
-		url:"http://localhost:2255/video/userid/dandannum",
+		url:"http://localhost:2255/video/collection/dandannum",
 		data:{
 			u_id:u_id
 		},
@@ -168,98 +178,58 @@ $(function(){
 			dandan = data
 		}
 	});
-	//获取审核中的视频
-	$.ajax({
-		type:"post",
-		url:"http://localhost:2255/video/userid/nopass",
-		data:{
-			u_id:u_id
-		},
-		async:false,
-		success:function(data){
-			if(u_id==sessionStorage.getItem('userid')){
-				var html = ``
-				for(var i in data){
-					html += `<li>
-								<img src="${data[i].v_img}" />
-								<div class="info">
-									<h5>${data[i].v_name}</h5>
-									<i class="seenum"></i>
-									<span>0</span>
-									<i class="danmunum"></i>
-									<span>0</span>
-								</div>
-							</li>`
-				}
-				
-				$('.nopassvideo').html(html)
+	
+	//拼接下面的列表
+	var html = ''
+	for(var i in himcollection){
+		var flag = false
+		var dandanflag = false
+		for(var j in mycollection){
+			if(himcollection[i].v_id==mycollection[j].v_id){
+				flag = true
+				break
 			}
 		}
-	});
-	
-	//获取审核完的视频
-	$.ajax({
-		type:"post",
-		url:"http://localhost:2255/video/userid/pass",
-		data:{
-			u_id:u_id
-		},
-		async:false,
-		success:function(data){
-			var html = ``
-			for(var i in data){
-				var flag = false
-				var iscollection = false
-				for(var j in dandan){
-					if(data[i].id == dandan[j].v_id){
-						flag = true
-						break
-					}
-				}
-				for(var k in collection){
-					if(data[i].id == collection[k].v_id){
-						iscollection = true
-						break
-					}
-				}
-				html += `<li>
-							<img src="${data[i].v_img}" />
-							<div class="info">
-								<h5>${data[i].v_name}</h5>
-								<i class="seenum"></i>
-								<span>${data[i].v_num}</span>
-								<i class="danmunum"></i>
-								<span>${flag?dandan[j].sum:0}</span>
-							</div>
-							<a class="yeah" data-id="${data[i].id}">${iscollection?'已收藏':'收藏'}</a>
-						</li>`
+		for(var k in dandan){
+			if(himcollection[i].v_id==dandan[k].v_id){
+				dandanflag = true
+				break
 			}
-			//如果未开放权限则隐藏已审核通过的视频
-			if(userinfo.video==0){
-				$('.passvideo').html(html)
-			}
-			
 		}
-	});
+		html += `<li>
+					<img src="${himcollection[i].v_img}" />
+					<div class="info">
+						<h5>${himcollection[i].v_name}</h5>
+						<i class="seenum"></i>
+						<span>${himcollection[i].v_num}</span>
+						<i class="danmunum"></i>
+						<span>${dandanflag?dandan[k].sum:0}</span>
+						<i class="author"></i>
+						<span class="authorname">${himcollection[i].name}</span>
+					</div>
+					<a class="tocollectvideo" data-id="${himcollection[i].v_id}">${flag?'已收藏':'收藏'}</a>
+				</li>`
+	}
+	$('.mycollection').html(html)
 	
-	//收藏&&取消
-	$('.yeah').on('click',function(){
+	//列表收藏&&取消收藏
+	$('.tocollectvideo').on('click',function(){
 		//判断是否登录
 		if(sessionStorage.getItem("userid")==undefined || sessionStorage.getItem("userid")==0){
 			showModal()
 			return
 		}
 		var thisobj = $(this)
-		var v_id = thisobj.attr('data-id')
-		if($(this).html()=='已收藏'){
+		var id = $(this).attr('data-id')
+		if(thisobj.html()=='已收藏'){
 			$.ajax({
 				type:"post",
 				url:"http://localhost:2255/collection/del",
+				async:true,
 				data:{
-					u_id:sessionStorage.getItem('userid'),
-					v_id:v_id
+					v_id:id,
+					u_id:sessionStorage.getItem("userid")
 				},
-				async:false,
 				success:function(data){
 					thisobj.html('收藏')
 				}
@@ -268,25 +238,27 @@ $(function(){
 			$.ajax({
 				type:"post",
 				url:"http://localhost:2255/collection/add",
+				async:true,
 				data:{
-					u_id:sessionStorage.getItem('userid'),
-					v_id:v_id
+					v_id:id,
+					u_id:sessionStorage.getItem("userid")
 				},
-				async:false,
 				success:function(data){
 					thisobj.html('已收藏')
 				}
 			});
 		}
-		
 	})
 	
-	//关闭模态框
+	//权限判断
+	if(userinfo.collection==1 && u_id!=sessionStorage.getItem("userid")){
+		$('.mycollection').html('')
+	}
+	
 	$('.no').on('click',function(){
 		closeModal()
 	})
 	
-	//去登录
 	$('#topay').on('click',function(){
 		location.href = 'http://localhost:2255/html/login.html'
 	})

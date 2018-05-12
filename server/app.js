@@ -43,7 +43,7 @@ app.use(session({
 //监听文件上传路由
 app.post("/upload", upload.any(), function (req, res) {
 	res.append("Access-Control-Allow-Origin","*");
-	console.log(233)
+	console.log(oldname,urlname)
 	if(oldname === urlname){
 		res.send('err')
 	}else{

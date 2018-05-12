@@ -90,7 +90,7 @@ html{
 	border-bottom: 1px solid #e5e9ef;
 }
 .tab ul{
-	min-height: 194px;
+	min-height: 196px;
 }
 .tab li{
 	overflow: hidden;
@@ -270,4 +270,7 @@ html{
   background: rgba(0, 0, 0, 0.4);
   z-index: 9999;
   display:none;
+}
+.tohide{
+	display: none;
 }

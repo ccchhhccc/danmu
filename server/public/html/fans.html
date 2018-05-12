@@ -40,16 +40,23 @@
 		<!--导航条-->
 		<div class="bar">
 			<ul>
+				<li>主页</li>
 				<li>关注</li>
 				<li class="active">粉丝</li>
 				<li>收藏</li>
-				<li>设置</li>
+				<li class="set">设置</li>
+				<li>
+					<i class="bi">233</i>
+				</li>
+				<li class="qiandao">
+					<!--<a>签到</a>-->
+				</li>
 			</ul>
 		</div>
 		<div class="tab">
 			<h3>全部粉丝</h3>
-			<ul>
-				<li>
+			<ul class="himfans">
+				<!--<li>
 					<img class="focus" src="../img/chc.jpg"/>
 					<div class="focus-info">
 						<span>陨落星际</span>
@@ -72,7 +79,7 @@
 						<p>粤语文化界的清流，欢迎关注公众号【广呢啲】微信号：ohai2016</p>
 					</div>
 					<a>已关注</a>
-				</li>
+				</li>-->
 			</ul>
 		</div>
 		<!--footer-->
@@ -83,5 +90,18 @@
 				<p>支持弹幕的云视频播放平台的设计与实现</p>
 			</div>
 		</div>
+		
+		<!--弹窗-->
+		<div id="muhu"></div>
+		<div id="layer">
+			<i></i>
+			<em></em>
+			<b></b>
+			<h3>登录提示</h3>
+			<p>登录后才能关注、收藏等</p>
+			<a class="no" style="margin-right: 10px;">取消</a>
+			<a id="topay" >登录</a>
+		</div>
 	</body>
 </html>
+<script src="../js/fans.js"></script>

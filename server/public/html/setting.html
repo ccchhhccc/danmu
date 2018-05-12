@@ -41,17 +41,23 @@
 		<!--导航条-->
 		<div class="bar">
 			<ul>
+				<li>主页</li>
 				<li>关注</li>
 				<li>粉丝</li>
 				<li>收藏</li>
-				<li class="active">设置</li>
+				<li class="set active">设置</li>
+				<li>
+					<i class="bi">233</i>
+				</li>
+				<li class="qiandao">
+					<!--<a>签到</a>-->
+				</li>
 			</ul>
-			
 		</div>
 		<div class="tab">
 			<h3>隐私设置</h3>
-			<ul>
-				<li class="checkli">
+			<ul class="setting">
+				<!--<li class="checkli">
 					<b class="check"></b>
 					<em></em>
 					<span>我的视频</span>
@@ -70,62 +76,69 @@
 					<b class="check"></b>
 					<em></em>
 					<span>我的收藏</span>
-				</li>
+				</li>-->
 			</ul>
 			<h3>个人信息设置</h3>
-			<ul>
-				<li class="checkli">
+			<ul class="personsetting">
+				<!--<li class="checkli">
 					<span>我的昵称：</span>
 					<span>陨落星际</span>
-					<input type="text" />
-					<b class="save">保存</b>
+					<input type="text" class="newvalue"/>
+					<b class="save clear headbuttom">取消</b>
+					<b class="save savetxt" data-name="name">保存</b>
 					<img src="../img/update.png" class="update"/>
 				</li>
 				<li class="checkli">
 					<span>我的头像：</span>
 					<img src="../img/chc.jpg" class="infourl">
-					<div class="uploadbox">
-						<input type="file" class="uploadhead"/>
-						<img src="../img/chc.jpg" />
+					<div class="uploadbox newvalue">
+						<form id="uploadForm" >
+							<input type="file" id="file" class="uploadhead" name="head"/>
+						</form>
+						<img  class="uploadurl"/>
 					</div>
-					<b class="save clear headbuttom">取消</b>
-					<b class="save headbuttom">保存</b>
+					<b class="save del headbuttom">取消</b>
+					<b class="save headbuttom savehead">保存</b>
 					<img src="../img/update.png" class="update"/>
 				</li>
 				<li class="checkli">
 					<span>个性签名：</span>
 					<span>这里是个性签名</span>
-					<input type="text" />
-					<b class="save">保存</b>
+					<input type="text" class="newvalue"/>
+					<b class="save clear headbuttom">取消</b>
+					<b class="save savetxt" data-name="signname">保存</b>
 					<img src="../img/update.png" class="update"/>
 				</li>
 				<li class="checkli">
 					<span>我的简介：</span>
 					<span>这里是简介</span>
-					<input type="text" />
-					<b class="save">保存</b>
+					<input type="text" class="newvalue"/>
+					<b class="save clear headbuttom">取消</b>
+					<b class="save savetxt" data-name="brief">保存</b>
 					<img src="../img/update.png" class="update"/>
 				</li>
-				<li class="checkli">
+				<li class="checkli mysex">
 					<span>性别：</span>
-					<b class="check"></b>
-					<em class="boy"></em>
+					<b class="check checkboy" data-name="sexboy"></b>
+					<em class="boy" style="${userinfo.sex==1?'':'display:none;'}"></em>
 					<span class="sex">男</span>
-					<b class="check"></b>
-					<em class="girl"></em>
+					<b class="check checkgirl"  data-name="sexgirl"></b>
+					<em class="girl" style="${userinfo.sex==0?'':'display:none;'}"></em>
 					<span class="sex">女</span>
 				</li>
 				<li class="checkli">
 					<span>背景图片：</span>
 					<img src="../img/usercenter.png@100Q.webp" class="updatebg"/>
-					<div class="uploadbox2">
-						<input type="file" class="uploadhead"/>
-						<img src="../img/usercenter.png@100Q.webp" />
+					<div class="uploadbox2 newvalue">
+						<form id="bgForm">
+						<input type="file" class="uploadbg" name="bg" id="bgfile"/>
+						</form>
+						<img class="bgurl" />
 					</div>
-					<b class="save clear headbuttom">取消</b>
-					<b class="save headbuttom">保存</b>
+					<b class="save delete headbuttom">取消</b>
+					<b class="save headbuttom savebg">保存</b>
 					<img src="../img/update.png" class="update"/>
-				</li>
+				</li>-->
 			</ul>
 		</div>
 		<!--footer-->
@@ -136,5 +149,17 @@
 				<p>支持弹幕的云视频播放平台的设计与实现</p>
 			</div>
 		</div>
+		<!--弹窗-->
+		<div id="muhu"></div>
+		<div id="layer">
+			<i></i>
+			<em></em>
+			<b></b>
+			<h3>修改提示</h3>
+			<p>您已成功修改</p>
+			<a class="no" style="margin-right: 10px;">取消</a>
+			<a id="topay">确定</a>
+		</div>
 	</body>
 </html>
+<script src="../js/setting.js"></script>

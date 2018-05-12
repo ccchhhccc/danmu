@@ -14,7 +14,7 @@ module.exports.listen = function(app,conn){
 				res.send('err')
 			}else{
 				//插入数据库
-				sql = `insert into user (name,phone,pwd,headurl,status,leval,registertime,sex,coinnum,centerurl,signday) values('手机用户${req.body.phone}' , '${req.body.phone}' , '${req.body.pwd}' , 'http://localhost:2255/uploads/defaulturl.jpg' , 1 , 1 , '${new Date().getTime()}',1,0,'http://localhost:2255/uploads/usercenter.png@100Q.webp','')`
+				sql = `insert into user (name,phone,pwd,headurl,status,leval,registertime,sex,coinnum,centerurl,signday,video,liker,fans,collection) values('手机用户${req.body.phone}' , '${req.body.phone}' , '${req.body.pwd}' , 'http://localhost:2255/uploads/defaulturl.jpg' , 1 , 1 , '${new Date().getTime()}',1,0,'http://localhost:2255/uploads/usercenter.png@100Q.webp','',0,0,0,0)`
 				console.log(sql)
 				conn.query(sql,function(err,result){
 					res.send('success')
@@ -210,6 +210,17 @@ module.exports.listen = function(app,conn){
     app.post('/user/signin',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");
     	var sql = `update user set signday = ${new Date().getTime()} , coinnum = coinnum+1 where id = ${req.body.id}`
+    	console.log(sql)
+    	//数据查询
+        conn.query(sql,function(err,result){
+            res.send('success')
+        })
+    })
+    
+    //用户设置
+    app.post('/user/setting',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sql = `update user set ${req.body.key} = '${req.body.value}'  where id = ${req.body.id}`
     	console.log(sql)
     	//数据查询
         conn.query(sql,function(err,result){

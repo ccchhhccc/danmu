@@ -95,10 +95,20 @@ module.exports.listen = function(app,conn){
 	    })
     })
     
-    //获取弹幕数量
+    //获取个人视频弹幕数量
     app.post('/video/userid/dandannum',function(req,res){
     	res.append("Access-Control-Allow-Origin","*")
     	var sql = `select count(*) as sum,dandan.v_id from dandan,video where dandan.v_id = video.id and video.u_id =${req.body.u_id} GROUP BY dandan.v_id` 
+    	console.log(sql)
+    	conn.query(sql,function(err,result){
+    		res.send(result)
+	    })
+    })
+    
+    //获取收藏视频的弹幕数量
+    app.post('/video/collection/dandannum',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*")
+    	var sql = `select count(*) as sum,dandan.v_id from dandan,collection where dandan.v_id = collection.v_id and collection.u_id =${req.body.u_id} GROUP BY dandan.v_id` 
     	console.log(sql)
     	conn.query(sql,function(err,result){
     		res.send(result)

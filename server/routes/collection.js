@@ -44,7 +44,7 @@ module.exports.listen = function(app,conn){
     //查询用户的所有收藏
     app.post('/collection/user/all',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");
-    	var sql = `select * from collection where u_id = ${req.body.u_id}` 
+    	var sql = `select * from collection,video,user where collection.u_id = ${req.body.u_id} and video.id = collection.v_id and video.u_id = user.id` 
     	console.log(sql)
     	conn.query(sql,function(err,result){
     		res.send(result)

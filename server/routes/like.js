@@ -18,7 +18,7 @@ module.exports.listen = function(app,conn){
     //查询所有粉丝
     app.post('/like/fans',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");
-    	var sql = `select * from likers,user where likers.u_id = ${req.body.u_id} and user.id = likers.u_id`
+    	var sql = `select * from likers,user where likers.u_id = ${req.body.u_id} and user.id = likers.liker`
     	console.log(sql)
     	conn.query(sql,function(err,result){
     		res.send(result)

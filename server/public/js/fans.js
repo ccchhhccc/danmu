@@ -2,7 +2,6 @@ $(function(){
 	//假装有用户
 	sessionStorage.setItem("userid", "14")
 	var u_id = location.href.split('?')[1]
-	console.log(u_id)
 	//获取查看的用户信息
 	var userinfo = {}
 	$.ajax({
@@ -35,7 +34,6 @@ $(function(){
 			}
 		}
 	});
-	console.log(myleval)
 	
 	//插入头部信息
 	var html = `<img src="${userinfo.centerurl}" class="mainbg"/>
@@ -78,6 +76,7 @@ $(function(){
 		}
 		
 	}else{
+		console.log(0)
 		$('.qiandao').html(`<a class='like'>${like?'已关注':'关注'}</a>`)
 		$('.nome').css({'display':'none'})
 		$('.set').css({'display':'none'})
@@ -133,160 +132,106 @@ $(function(){
 			},
 			async:false,
 			success:function(data){
-				$('.qiandao').html(`<a>已签到</a>`)
-				//硬币+1
-				$('.bi').html(num+1)
+				$('.qiandao').html('<a>已签到</a>')
 			}
 		});
 	})
 	
-	//获取当前用户的所有收藏
-	var collection = []
-	if(sessionStorage.getItem("userid")!=undefined && sessionStorage.getItem("userid")!=0){
-		$.ajax({
-			type:"post",
-			url:"http://localhost:2255/collection/user/all",
-			data:{
-				u_id:sessionStorage.getItem("userid")
-			},
-			async:false,
-			success:function(data){
-				collection = data
+	//获取我的的关注列表
+	var mylike = []
+	$.ajax({
+		type:"post",
+		url:"http://localhost:2255/like/allLike",
+		data:{
+			liker:sessionStorage.getItem("userid")
+		},
+		async:false,
+		success:function(data){
+			mylike = data
+		}
+	});
+	
+	//获取用户粉丝
+	var himfans = []
+	$.ajax({
+		type:"post",
+		url:"http://localhost:2255/like/fans",
+		data:{
+			u_id:u_id
+		},
+		async:false,
+		success:function(data){
+			himfans = data
+		}
+	});
+	
+	//拼接下面的列表
+	var html = ''
+	for(var i in himfans){
+		var flag = false
+		for(var j in mylike){
+			if(himfans[i].u_id==mylike[j].u_id){
+				flag = true
+				break
 			}
-		});
+		}
+		html += `<li>
+					<img class="focus" src="${himfans[i].headurl}"/>
+					<div class="focus-info">
+						<span>${himfans[i].name}</span>
+						<p>${himfans[i].signname==null?'':himfans[i].signname}</p>
+					</div>
+					<a class="tolike  ${himfans[i].id==sessionStorage.getItem("userid")?'tohide':''}" data-id="${himfans[i].id}">${flag?'已关注':'关注'}</a>
+				</li>`
 	}
-	//获取弹幕数量
-	var dandan = []
-	$.ajax({
-		type:"post",
-		url:"http://localhost:2255/video/userid/dandannum",
-		data:{
-			u_id:u_id
-		},
-		async:false,
-		success:function(data){
-			dandan = data
-		}
-	});
-	//获取审核中的视频
-	$.ajax({
-		type:"post",
-		url:"http://localhost:2255/video/userid/nopass",
-		data:{
-			u_id:u_id
-		},
-		async:false,
-		success:function(data){
-			if(u_id==sessionStorage.getItem('userid')){
-				var html = ``
-				for(var i in data){
-					html += `<li>
-								<img src="${data[i].v_img}" />
-								<div class="info">
-									<h5>${data[i].v_name}</h5>
-									<i class="seenum"></i>
-									<span>0</span>
-									<i class="danmunum"></i>
-									<span>0</span>
-								</div>
-							</li>`
-				}
-				
-				$('.nopassvideo').html(html)
-			}
-		}
-	});
+	$('.himfans').html(html)
 	
-	//获取审核完的视频
-	$.ajax({
-		type:"post",
-		url:"http://localhost:2255/video/userid/pass",
-		data:{
-			u_id:u_id
-		},
-		async:false,
-		success:function(data){
-			var html = ``
-			for(var i in data){
-				var flag = false
-				var iscollection = false
-				for(var j in dandan){
-					if(data[i].id == dandan[j].v_id){
-						flag = true
-						break
-					}
-				}
-				for(var k in collection){
-					if(data[i].id == collection[k].v_id){
-						iscollection = true
-						break
-					}
-				}
-				html += `<li>
-							<img src="${data[i].v_img}" />
-							<div class="info">
-								<h5>${data[i].v_name}</h5>
-								<i class="seenum"></i>
-								<span>${data[i].v_num}</span>
-								<i class="danmunum"></i>
-								<span>${flag?dandan[j].sum:0}</span>
-							</div>
-							<a class="yeah" data-id="${data[i].id}">${iscollection?'已收藏':'收藏'}</a>
-						</li>`
-			}
-			//如果未开放权限则隐藏已审核通过的视频
-			if(userinfo.video==0){
-				$('.passvideo').html(html)
-			}
-			
-		}
-	});
-	
-	//收藏&&取消
-	$('.yeah').on('click',function(){
+	//列表关注&&取消关注
+	$('.tolike').on('click',function(){
 		//判断是否登录
 		if(sessionStorage.getItem("userid")==undefined || sessionStorage.getItem("userid")==0){
 			showModal()
 			return
 		}
 		var thisobj = $(this)
-		var v_id = thisobj.attr('data-id')
-		if($(this).html()=='已收藏'){
+		var id = $(this).attr('data-id')
+		if(thisobj.html()=='已关注'){
 			$.ajax({
 				type:"post",
-				url:"http://localhost:2255/collection/del",
+				url:"http://localhost:2255/like/del",
+				async:true,
 				data:{
-					u_id:sessionStorage.getItem('userid'),
-					v_id:v_id
+					u_id:id,
+					liker:sessionStorage.getItem("userid")
 				},
-				async:false,
 				success:function(data){
-					thisobj.html('收藏')
+					thisobj.html('关注')
 				}
 			});
 		}else{
 			$.ajax({
 				type:"post",
-				url:"http://localhost:2255/collection/add",
+				url:"http://localhost:2255/like/add",
+				async:true,
 				data:{
-					u_id:sessionStorage.getItem('userid'),
-					v_id:v_id
+					u_id:id,
+					liker:sessionStorage.getItem("userid")
 				},
-				async:false,
 				success:function(data){
-					thisobj.html('已收藏')
+					thisobj.html('已关注')
 				}
 			});
 		}
-		
 	})
 	
-	//关闭模态框
+	if(userinfo.fans==1 && u_id!=sessionStorage.getItem("userid")){
+		$('.himfans').html('')
+	}
+	
 	$('.no').on('click',function(){
 		closeModal()
 	})
 	
-	//去登录
 	$('#topay').on('click',function(){
 		location.href = 'http://localhost:2255/html/login.html'
 	})

@@ -81,6 +81,9 @@
 	border: 1px solid #ccc;
 	position: relative;
 }
+.uploadbox:hover{
+	border: 1px solid skyblue;
+}
 .uploadbox img{
 	width: 64px;
 	height: 64px;
@@ -98,6 +101,9 @@
 .checkli .clear{
 	background: #ccc;
 }
+.checkli .del{
+	background: #ccc;
+}
 .uploadbox2{
 	display: inline-block;
 	width: 360px;
@@ -106,6 +112,10 @@
 	border: 1px solid #ccc;
 	position: relative;
 }
+.uploadbox2:hover{
+	border: 1px solid skyblue;
+	cursor: pointer;
+}
 .uploadbox2 img{
 	width: 360px;
 	height: 58px;
@@ -113,6 +123,7 @@
 	border-radius: 0;
 	top: 0;
 	left: 0;
+	display: none;
 }
 .uploadbox2 .uploadhead{
 	width:100%;
@@ -153,4 +164,26 @@
 }
 .contribute .checkli{
 	border: 0;
+}
+.save{
+	display: none;
+}
+.newvalue{
+	display: none;
+}
+.uploadurl{
+	display: none;
+}
+#uploadForm{
+	width: 100%;
+	height: 100%;
+}
+#bgForm{
+	width: 100%;
+	height: 100%;
+}
+#bgForm #bgfile{
+	width: 100%;
+	height: 100%;
+	opacity: 0;
 }
