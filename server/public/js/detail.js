@@ -146,7 +146,7 @@ $(function(){
 		type:"post",
 		url:"http://localhost:2255/comment/id",
 		data:{
-			id:1,
+			id:v_id,
 		},
 		async:false,
 		success:function(data){

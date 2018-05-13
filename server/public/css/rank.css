@@ -26,6 +26,9 @@
 .main a:hover{
 	color: #E74C3C;
 }
+.allList ul{
+	min-height: 440px;
+}
 .allList li{
 	overflow: hidden;
 	background: #FFF;
@@ -47,13 +50,22 @@
 	color: #b8c0cc;
 	font-weight: 700;
 }
-.allList img{
+.allList .headurl{
 	width: 114px;
 	height: 70px;
 	float: left;
 	margin-right: 20px;
 	margin-left: 20px;
 }
+.info .vip{
+	background: url(../img/vip.png) no-repeat;
+    background-size: auto 100%;
+    height: 16px;
+    width: 30px;
+    margin-top: -7px;
+    margin-left: 20px;
+}
+
 .info{
 	float: left;
 }
@@ -86,4 +98,10 @@
 }
 .info .authorname{
 	width: 150px;
+}
+.info .hide{
+	display: none;
+}
+.navbar a{
+	cursor: pointer;
 }

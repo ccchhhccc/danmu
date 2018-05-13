@@ -20,6 +20,14 @@ module.exports.listen = function(app,conn){
     		res.send(result)
     	})
     })
-   
+    
+    //获取弹幕数量
+    app.post('/danmu/allnum',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	console.log(req.body)
+    	conn.query(`select *,count(v_id) as count from dandan GROUP BY v_id`,function(err,result){
+    		res.send(result)
+    	})
+    })
     
 }

@@ -50,6 +50,15 @@ module.exports.listen = function(app,conn){
     		res.send(result)
     	})
     })
-   
+    
+    //查询所有vip视频的收藏数量
+    app.post('/collection/vip/all',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sql = `select collection.v_id,count(v_id) as sum from video,collection where video.v_status = 3 and collection.v_id = video.id GROUP BY collection.v_id` 
+    	console.log(sql)
+    	conn.query(sql,function(err,result){
+    		res.send(result)
+    	})
+    })
     
 }

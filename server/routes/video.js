@@ -114,6 +114,51 @@ module.exports.listen = function(app,conn){
     		res.send(result)
 	    })
     })
+    
+    //根据频道id查视频
+    app.post('/video/c_id/all',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*")
+    	var sql = `SELECT v.*, AVG(grade.num) as avg_num
+					FROM video as v LEFT JOIN grade ON v.id = grade.v_id where v.c_id = ${req.body.c_id} and v.v_status = 1
+					GROUP BY v.id order by ${req.body.ordername} desc` 
+    	console.log(sql)
+    	conn.query(sql,function(err,result){
+    		res.send(result)
+	    })
+    })
+    
+    //根据频道id查收藏数量
+    app.post('/video/c_id/collection',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*")
+    	var sql = `SELECT collection.*,video.*,count(collection.v_id) as sum from collection,video WHERE collection.v_id = video.id and video.c_id = ${req.body.c_id} GROUP BY collection.v_id` 
+    	console.log(sql)
+    	conn.query(sql,function(err,result){
+    		res.send(result)
+	    })
+    })
+    
+    //根据频道id查弹幕数量
+    app.post('/video/c_id/dandan',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*")
+    	var sql = `SELECT dandan.*,video.*,count(dandan.v_id) as sum from dandan,video WHERE dandan.v_id = video.id and video.c_id = ${req.body.c_id} GROUP BY dandan.v_id` 
+    	console.log(sql)
+    	conn.query(sql,function(err,result){
+    		res.send(result)
+	    })
+    })
+    
+    //查找所有审核通过的视频   排行榜   vip&&非vip
+    app.post('/video/rank/all',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*")
+    	var sql = `SELECT v.*, count(collection.v_id) as count_num ,user.name
+				FROM user,video as v LEFT JOIN collection ON v.id = collection.v_id where  (v.v_status = 1 or v.v_status = 3) and user.id = v.u_id
+				GROUP BY v.id 
+				ORDER BY ${req.body.sortname} desc` 
+    	console.log(sql)
+    	conn.query(sql,function(err,result){
+    		res.send(result)
+	    })
+    })
      
 }
 //用户视频-1

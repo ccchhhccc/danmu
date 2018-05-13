@@ -26,12 +26,16 @@
 .main a:hover{
 	color: #E74C3C;
 }
+.navbar a{
+	cursor: pointer;
+}
 .allList{
 	width: 1208px;
 	margin: 0 auto;
 }
 .allList ul{
 	overflow: hidden;
+	min-height: 440px;
 }
 .allList ul li{
 	float: left;

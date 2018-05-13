@@ -2,7 +2,7 @@
 //vip视频管理模块
 module.exports.listen = function(app,conn){
     
-    //查找所有推荐
+    //查找所有vip
     app.post('/vip',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");
     	var sql = `select vipVideo.id as id, video.v_name , video.v_url , channel.name as channelname , vipVideo.addtime , user.name as username , vipVideo.sort , vipVideo.v_id from vipVideo , video , channel , user where user.id = video.u_id and video.c_id = channel.c_id and vipVideo.v_id = video.id order by vipVideo.sort`
@@ -13,6 +13,18 @@ module.exports.listen = function(app,conn){
             }else{
             	res.send(result)
             }
+        })
+    })
+    
+    //查找vip   附带评分
+    app.post('/vip/all/grade',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sql = `SELECT v.*, AVG(grade.num) as avg_num
+					FROM video as v LEFT JOIN grade ON v.id = grade.v_id where  v.v_status = 3
+					GROUP BY v.id `
+    	console.log(sql)
+        conn.query(sql,function(err,result){
+            res.send(result)
         })
     })
     
@@ -58,7 +70,7 @@ module.exports.listen = function(app,conn){
         })
     })
     
-    //新增推荐
+    //新增vip
     app.post('/vip/add',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");
     	var sql = `insert into vipVideo(v_id,addtime,sort) values(${req.body.v_id} , '${new Date().getTime()}' , 1)`
