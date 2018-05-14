@@ -119,7 +119,7 @@ module.exports.listen = function(app,conn){
     app.post('/video/c_id/all',function(req,res){
     	res.append("Access-Control-Allow-Origin","*")
     	var sql = `SELECT v.*, AVG(grade.num) as avg_num
-					FROM video as v LEFT JOIN grade ON v.id = grade.v_id where v.c_id = ${req.body.c_id} and v.v_status = 1
+					FROM video as v LEFT JOIN grade ON v.id = grade.v_id where v.c_id = ${req.body.c_id} and (v.v_status = 1 or v.v_status = 3)
 					GROUP BY v.id order by ${req.body.ordername} desc` 
     	console.log(sql)
     	conn.query(sql,function(err,result){
@@ -157,6 +157,16 @@ module.exports.listen = function(app,conn){
     	console.log(sql)
     	conn.query(sql,function(err,result){
     		res.send(result)
+	    })
+    })
+    
+    //新增视频
+    app.post('/video/add',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*")
+    	var sql = `insert into video(v_name,v_url,v_img,c_id,v_status,v_time,u_id,v_brief,v_num,v_coin) values('${req.body.v_name}','${req.body.v_url}','${req.body.v_img}','${req.body.c_id}',0,'${new Date().getTime()}','${req.body.u_id}','${req.body.v_brief}',0,0)` 
+    	console.log(sql)
+    	conn.query(sql,function(err,result){
+    		res.send('success')
 	    })
     })
      

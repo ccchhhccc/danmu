@@ -1,0 +1,23 @@
+#uploadhead{
+	width: 100%;
+	height: 100%;
+}
+.uploadbox:hover{
+	border: 1px solid skyblue;
+}
+.myhead{
+	display: none;
+}
+.myvideo{
+	display: none;
+}
+#uploadvide{
+	width: 100%;
+	height: 100%;
+}
+.uploadvideobox:hover{
+	border: 1px solid skyblue;
+}
+#num{
+	margin-left: 5px;
+}

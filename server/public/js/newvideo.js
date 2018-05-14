@@ -1,28 +1,12 @@
 $(function(){
-	//获取频道id
-	var c_id = location.href.split('?')[1]
-	
-	$.ajax({
-		type:"post",
-		url:"http://localhost:2255/channel/id",
-		data:{
-			id:c_id
-		},
-		async:false,
-		success:function(data){
-			//拼接标题
-			$('.channelname').html(data.name)
-		}
-	});
 	
 	//获取视频
 	var allvideo = []
 	$.ajax({
 		type:"post",
-		url:"http://localhost:2255/video/c_id/all",
+		url:"http://localhost:2255/video/rank/all",
 		data:{
-			c_id:c_id,
-			ordername:'v_time'
+			sortname:'v_time'
 		},
 		async:false,
 		success:function(data){
@@ -34,10 +18,7 @@ $(function(){
 	var collection = []
 	$.ajax({
 		type:"post",
-		url:"http://localhost:2255/video/c_id/collection",
-		data:{
-			c_id:c_id
-		},
+		url:"http://localhost:2255/collection/video/all",
 		async:false,
 		success:function(data){
 			collection = data
@@ -48,10 +29,7 @@ $(function(){
 	var dandan = []
 	$.ajax({
 		type:"post",
-		url:"http://localhost:2255/video/c_id/dandan",
-		data:{
-			c_id:c_id
-		},
+		url:"http://localhost:2255/danmu/allnum",
 		async:false,
 		success:function(data){
 			dandan = data
@@ -78,27 +56,6 @@ $(function(){
 			console.log(233)
 		}
 	});
-	
-	//排序方式    评分&&时间
-	$('.navbar').find('a').on('click',function(){
-		$('.navbar').find('a').removeClass('active')
-		$(this).addClass('active')
-		page = 1
-		var key = $(this).attr('data-sort')
-		$.ajax({
-			type:"post",
-			url:"http://localhost:2255/video/c_id/all",
-			data:{
-				c_id:c_id,
-				ordername:key
-			},
-			async:false,
-			success:function(data){
-				allvideo = data
-			}
-		});
-		$('.allList').find('ul').html(addInfo(allvideo,page,collection,dandan))
-	})
 	
 	//页面跳转
 	$('.allList').on('click',function(event){
@@ -148,7 +105,7 @@ function addInfo(arr,page,collection,dandan){
 							<h4>${arr[i].v_name}</h4>
 							<div class="info">
 								<i class="comment"></i>
-								<span>${dandanflag?dandan[k].sum:0}</span>
+								<span>${dandanflag?dandan[k].count:0}</span>
 								<i class="like"></i>
 								<span>${flag?collection[j].sum:0}</span>
 								<div class="star-bg">

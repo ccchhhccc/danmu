@@ -61,4 +61,14 @@ module.exports.listen = function(app,conn){
     	})
     })
     
+    //查询所有视频的收藏数量
+    app.post('/collection/video/all',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sql = `select collection.v_id,count(v_id) as sum from video,collection where (video.v_status = 3 or video.v_status = 1) and collection.v_id = video.id GROUP BY collection.v_id` 
+    	console.log(sql)
+    	conn.query(sql,function(err,result){
+    		res.send(result)
+    	})
+    })
+    
 }

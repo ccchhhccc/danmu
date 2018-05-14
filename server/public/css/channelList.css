@@ -108,3 +108,18 @@
 .v-title b{
 	color: #F7B42C;
 }
+.imgbox{
+	position: relative;
+}
+.vip{
+	position: absolute;
+	width: 36px;
+	height: 20px;
+	background: url(../img/vip.png)no-repeat;
+	background-size: auto 100%;
+	top: 10px;
+	right: 10px;
+}
+.hide{
+	display: none;
+}

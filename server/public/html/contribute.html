@@ -2,10 +2,11 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>用户中心</title>
+		<title>投稿</title>
 		<link rel="stylesheet" type="text/css" href="../css/usercenter.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/common.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/setting.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/contribute.css"/>
 		<script src="../lib/jquery.js"></script>
 	</head>
 	<body>
@@ -38,7 +39,7 @@
 				</div>
 			</div>
 		</div>
-		<!--导航条-->
+		<!--导航条
 		<div class="bar">
 			<ul>
 				<li class="active">主页</li>
@@ -53,43 +54,47 @@
 					<a>签到</a>
 				</li>
 			</ul>
-		</div>
+		</div>-->
 		<div class="tab contribute">
 			<h3>投稿</h3>
 			<ul>
 				<li class="checkli">
 					<span>视频名称：</span>
-					<input type="text" />
+					<input type="text" class="v_name"/>
 				</li>
 				<li class="checkli">
 					<span>封面图：</span>
 					<div class="uploadbox">
-						<input type="file" class="uploadhead"/>
-						<img src="../img/chc.jpg" />
+						<form id="uploadhead">
+							<input accept="image/*" type="file" class="uploadhead" name="videohead" id="file"/>
+						</form>
+						<img class="myhead"/>
 					</div>
-					<b class="clear save">删除</b>
+					<b class="clear save headclear">删除</b>
 				</li>
 				<li class="checkli">
 					<span>频道分类：</span>
-					<select>
+					<select class="channelcheck">
 						<option>科技</option>
 						<option>搞笑</option>
 					</select>
 				</li>
 				<li class="checkli">
 					<span>视频简介：</span>
-					<input type="text" />
+					<input type="text" class="v_brief"/>
 				</li>
 				<li class="checkli">
 					<span>上传视频：</span>
 					<div class="uploadvideobox">
-						<input type="file" class="uploadhead"/>
-						<video controls="controls"></video>
+						<form id="uploadvide">
+							<input accept=".mp4" type="file" class="uploadhead" name="video" id="videofile"/>
+						</form>
+						<video controls="controls" class="myvideo"></video>
 					</div>
-					<b class="save clear headbuttom">取消</b>
+					<b class="save clear headbuttom">删除</b>
 				</li>
 				<li class="checkli">
-					<a class="upload">上传</a>
+					<a class="upload">上传<b id="num"></b></a>
 				</li>
 				
 			</ul>
@@ -104,3 +109,4 @@
 		</div>
 	</body>
 </html>
+<script src="../js/contribute.js"></script>
