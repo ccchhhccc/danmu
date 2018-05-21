@@ -95,7 +95,7 @@ module.exports.listen = function(app,conn){
         })
     })
     
-    //详情
+    //更新
     app.post('/admin/update',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");
     	var sql = `update admin set name = '${req.body.name}' , setting = ${req.body.setting=='true'?1:0} , video = ${req.body.video=='true'?1:0} , vip = ${req.body.vip=='true'?1:0} , user = ${req.body.user=='true'?1:0} , management = ${req.body.management=='true'?1:0} where id = ${req.body.id}`
@@ -108,4 +108,31 @@ module.exports.listen = function(app,conn){
         })
     })
     
+    //获取权限
+    app.post('/admin/limits',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sql = `select setting,video,vip,user,management from admin where id = ${req.body.id}`
+    	console.log(sql)
+    	conn.query(sql,function(err,result){
+            res.send(result[0])
+        })
+    })
+    
+    //更改密码
+    app.post('/admin/updatePwd',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sql = `select * from admin where id = ${req.body.id}`
+    	console.log(sql)
+    	conn.query(sql,function(err,result){
+            if(req.body.oldpwd==result[0].password){
+            	sql = `update admin set password = '${req.body.newpwd}' where id = ${req.body.id}`
+            	console.log(sql)
+            	conn.query(sql,function(err,result){
+            		res.send('success')
+            	})
+            }else{
+            	res.send('err')
+            }
+        })
+    })
 }
