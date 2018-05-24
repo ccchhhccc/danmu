@@ -1,6 +1,6 @@
 $(function(){
 	//假装有用户
-	//sessionStorage.setItem("userid", "21")
+	sessionStorage.setItem("userid", "21")
 	//获取视频id
 	var v_id = location.href.split('?')[1]
 	//登录验证

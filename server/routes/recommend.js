@@ -71,5 +71,21 @@ module.exports.listen = function(app,conn){
             }
         })
     })
+    
+    //获取推荐 && 用户 && 评分
+    app.post('/recommend/query/sort',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sql = `SELECT v.*, AVG(grade.num) as avg_num, user.name,recommend.sort
+					FROM recommend,user,video as v LEFT JOIN grade ON v.id = grade.v_id where  v.id = recommend.v_id and user.id = v.u_id
+					GROUP BY v.id 	ORDER BY recommend.sort		`
+    	console.log(sql)
+        conn.query(sql,function(err,result){
+            if(err){
+                res.send('err')
+            }else{
+            	res.send(result)
+            }
+        })
+    })
  
 }
