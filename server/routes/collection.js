@@ -9,7 +9,7 @@ module.exports.listen = function(app,conn){
     	var obj = {}
     	conn.query(sql,function(err,result){
     		obj.num = result.length
-    		sql = `select * from collection where u_id = ${req.body.u_id}`
+    		sql = `select * from collection where u_id = ${req.body.u_id} and v_id = ${req.body.v_id}`
 	    	console.log(sql)
 	    	conn.query(sql,function(err,result){
 	    		if(result.length==0){

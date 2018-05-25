@@ -1,4 +1,28 @@
 $(function(){
+	
+	//获取用户id
+	var userid = sessionStorage.getItem('userid')
+	console.log(userid)
+	
+	if(userid!=undefined && userid!=0 && userid!=null){
+		//获取用户信息
+		$.ajax({
+			type:"post",
+			url:"http://localhost:2255/user/getInfo",
+			data:{
+				id:userid
+			},
+			async:false,
+			success:function(data){
+				var html = `<img class="myname" src="${data.data.headurl}" data-uid="${data.data.id}"/>
+							<a class="myname" data-uid="${data.data.id}">${data.data.name}</a>`
+				$('.my').html(html)
+				$('.user').css({'display':'none'})
+			}
+		});
+	}
+	
+	
 	//获取频道id
 	var c_id = location.href.split('?')[1]
 	

@@ -26,14 +26,30 @@ a{
 	font-weight: 800;
 	cursor: pointer;
 }
-.user{
+.user,.my{
 	float: right;
 	height: 34px;
 	line-height: 34px;
+	float: right;
 }
 .user a{
 	color: #000000;	
 	margin: 0 10px;
+	float: right;
+	cursor: pointer;
+}
+.my a{
+	color: #000000;	
+	margin: 0 10px;
+	float: right;
+	cursor: pointer;
+}
+.my img{
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	margin: 2px;
+	cursor: pointer;
 }
 .footer{
 	height: 110px;

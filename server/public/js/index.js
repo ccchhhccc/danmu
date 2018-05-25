@@ -1,4 +1,29 @@
 $(function(){
+	//sessionStorage.removeItem('userid')
+	//获取用户id
+	var userid = sessionStorage.getItem('userid')
+	console.log(userid)
+	
+	if(userid!=undefined && userid!=0 && userid!=null){
+		//获取用户信息
+		$.ajax({
+			type:"post",
+			url:"http://localhost:2255/user/getInfo",
+			data:{
+				id:userid
+			},
+			async:false,
+			success:function(data){
+				var html = `<img class="myname" src="${data.data.headurl}" data-uid="${data.data.id}"/>
+							<a class="myname" data-uid="${data.data.id}">${data.data.name}</a>`
+				$('.my').html(html)
+				$('.user').css({'display':'none'})
+			}
+		});
+	}
+	
+	
+	
 	//获取轮播图
 	$.ajax({
 		type:"post",
@@ -39,10 +64,13 @@ $(function(){
 		success:function(data){
 			for(var i in data){
 				html += `<li>
-							<img src="${data[i].v_img}"/>
+							<div class="img todetail" data-id="${data[i].id}">
+								<img src="${data[i].v_img}"/>
+								<i class="vipicon ${data[i].v_status==3?'':'hide'}"></i>
+							</div>
 							<div class="right-content">
 								<div class="top">
-									<h3>${data[i].v_name}</h3>
+									<h3 class="v_title" data-id="${data[i].id}">${data[i].v_name}</h3>
 									<div class="author">
 										<span>影片作者:</span>
 										<i class="toUser" data-uid="${data[i].u_id}">${data[i].name}</i>
@@ -63,11 +91,32 @@ $(function(){
 	});
 	$('.main>ul').html(html)
 	
-	
 	//跳转个人中心
+	$('.myname').on('click',function(){
+		var userid = $(this).attr('data-uid')
+		//url拼接
+		location.href = `http://localhost:2255/html/usermain.html?`+userid
+	})
+	
+	//跳转作者个人中心
 	$('.toUser').on('click',function(){
 		var userid = $(this).attr('data-uid')
-		//
+		//url拼接
+		location.href = `http://localhost:2255/html/usermain.html?`+userid
+	})
+	
+	//标题跳视频连接
+	$('.v_title').on('click',function(){
+		var videoid = $(this).attr('data-id')
+		//url拼接
+		location.href = `http://localhost:2255/html/detail.html?`+videoid
+	})
+	
+	//
+	$('.todetail').on('click',function(){
+		var videoid = $(this).attr('data-id')
+		//url拼接
+		location.href = `http://localhost:2255/html/detail.html?`+videoid
 	})
 })
 // 转时间 如 2017-11-3 18:08:15

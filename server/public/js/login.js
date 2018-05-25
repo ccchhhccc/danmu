@@ -21,7 +21,7 @@ $(function(){
 				if(data.msg=='err'){
 					$('#notic').html('账号或密码错误').css({'display':'block'})
 				}else if(data.msg=='success'){
-					sessionStorage.setItem('id',data.id)
+					sessionStorage.setItem('userid',data.id)
 					location.href = 'http://localhost:2255/'
 				}else{
 					$('#layer').find('p').html('账号封禁到'+DateToString(data.time))
