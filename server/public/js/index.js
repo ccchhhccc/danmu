@@ -112,7 +112,7 @@ $(function(){
 		location.href = `http://localhost:2255/html/detail.html?`+videoid
 	})
 	
-	//
+	//图片跳转视频连接
 	$('.todetail').on('click',function(){
 		var videoid = $(this).attr('data-id')
 		//url拼接

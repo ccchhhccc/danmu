@@ -1,12 +1,34 @@
 $(function(){
+	//获取用户id
+	var userid = sessionStorage.getItem('userid')
+	console.log(userid)
+	
+	if(userid!=undefined && userid!=0 && userid!=null){
+		//获取用户信息
+		$.ajax({
+			type:"post",
+			url:"http://localhost:2255/user/getInfo",
+			data:{
+				id:userid
+			},
+			async:false,
+			success:function(data){
+				var html = `<img class="myname" src="${data.data.headurl}" data-uid="${data.data.id}"/>
+							<a class="myname" data-uid="${data.data.id}">${data.data.name}</a>`
+				$('.my').html(html)
+				$('.user').css({'display':'none'})
+			}
+		});
+	}
+	
 	
 	//获取视频
 	var allvideo = []
 	$.ajax({
 		type:"post",
-		url:"http://localhost:2255/video/rank/all",
+		url:"http://localhost:2255/video/rank/grade/all",
 		data:{
-			sortname:'v_time'
+			sortname:'v.v_time'
 		},
 		async:false,
 		success:function(data){
@@ -69,6 +91,13 @@ $(function(){
 			return 
 		}
 		location.href = 'http://localhost:2255/html/detail.html?'+id
+	})
+	
+	//跳转个人中心
+	$('.myname').on('click',function(){
+		var userid = $(this).attr('data-uid')
+		//url拼接
+		location.href = `http://localhost:2255/html/usermain.html?`+userid
 	})
 })
 //每次添加两行数据8条

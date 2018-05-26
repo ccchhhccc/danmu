@@ -147,13 +147,25 @@ module.exports.listen = function(app,conn){
 	    })
     })
     
-    //查找所有审核通过的视频   排行榜   vip&&非vip
+    //查找所有审核通过的视频   排行榜   vip&&非vip   不包评分项
     app.post('/video/rank/all',function(req,res){
     	res.append("Access-Control-Allow-Origin","*")
     	var sql = `SELECT v.*, count(collection.v_id) as count_num ,user.name
 				FROM user,video as v LEFT JOIN collection ON v.id = collection.v_id where  (v.v_status = 1 or v.v_status = 3) and user.id = v.u_id
 				GROUP BY v.id 
 				ORDER BY ${req.body.sortname} desc` 
+    	console.log(sql)
+    	conn.query(sql,function(err,result){
+    		res.send(result)
+	    })
+    })
+    
+    //查找所有审核通过的视频   排行榜   vip&&非vip   &&评分项
+    app.post('/video/rank/grade/all',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*")
+    	var sql = `SELECT v.*, AVG(grade.num) as avg_num
+	FROM video as v LEFT JOIN grade ON v.id = grade.v_id where (v.v_status = 1 or v.v_status = 3)
+	GROUP BY v.id order by ${req.body.sortname} desc` 
     	console.log(sql)
     	conn.query(sql,function(err,result){
     		res.send(result)

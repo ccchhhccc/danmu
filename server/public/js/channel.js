@@ -61,4 +61,11 @@ $(function(){
 		var id = $(this).attr('data-id')
 		location.href = `http://localhost:2255/html/channelList.html?`+id
 	})
+	
+	//跳转个人中心
+	$('.myname').on('click',function(){
+		var userid = $(this).attr('data-uid')
+		//url拼接
+		location.href = `http://localhost:2255/html/usermain.html?`+userid
+	})
 })
