@@ -1,10 +1,44 @@
 $(function(){
-	//假装有用户
-	sessionStorage.setItem("userid", "21")
 	//获取视频id
 	var v_id = location.href.split('?')[1]
-	//登录验证
-	validateLogin()
+	//获取用户id
+	var userid = sessionStorage.getItem('userid')
+	console.log(userid)
+	//判断是否登录
+	$.ajax({
+		type:"post",
+		url:"http://localhost:2255/user/isLogin",
+		data:{
+			id:userid
+		},
+		async:false,
+		success:function(data){
+			//如果用户和服务端不匹配
+			if(data=='err'){
+				userid = 0 
+				sessionStorage.setItem("userid", "0")
+			}
+		}
+	});
+	
+	if(userid!=undefined && userid!=0 && userid!=null){
+		//获取用户信息
+		$.ajax({
+			type:"post",
+			url:"http://localhost:2255/user/getInfo",
+			data:{
+				id:userid
+			},
+			async:false,
+			success:function(data){
+				var html = `<img class="myname" src="${data.data.headurl}" data-uid="${data.data.id}"/>
+							<a class="myname" data-uid="${data.data.id}">${data.data.name}</a>`
+				$('.my').html(html)
+				$('.user').css({'display':'none'})
+			}
+		});
+	}
+	
 	//如果没有获取到视频id则不处理
 	if(v_id==undefined){
 		return
@@ -70,10 +104,10 @@ $(function(){
 	//拼接头部
 	var html = `<h3>${videoinfo.v_name}</h3>
 				<div class="main-user">
-					<span>${videoinfo.username}</span>
+					<span class="myname" data-uid="${videoinfo.u_id}">${videoinfo.username}</span>
 					<span>发布于</span>
 					<span>${DateToString(videoinfo.v_time)}</span>
-					<span>频道： ${videoinfo.channelname}</span>
+					<span class="toChannel" data-cid="${videoinfo.c_id}">频道： ${videoinfo.channelname}</span>
 					<div class="star-bg">
 						<span class="star" style="width: ${(grade.avg/10*90).toFixed(0)}px;"></span>
 					</div>
@@ -81,6 +115,13 @@ $(function(){
 				</div>`
 	
 	$('.main-title').html(html)
+	
+	
+	$('.toChannel').on('click',function(){
+		var cid = $(this).attr('data-cid')
+		//url拼接
+		location.href = `http://localhost:2255/html/channelList.html?`+cid
+	})
 	
 	//载入视频源和弹幕
 	$("#danmup").DanmuPlayer({
@@ -157,7 +198,7 @@ $(function(){
 		type:"post",
 		url:"http://localhost:2255/reply/id",
 		data:{
-			id:1,
+			id:v_id,
 		},
 		async:false,
 		success:function(data){
@@ -167,15 +208,23 @@ $(function(){
 	
 	var html = ''
 	for(var i = 0 ; i<pllist.length ; i++){
-		html += `<div class="comment-show-con clearfix"><div class="comment-show-con-img pull-left"><img src="${pllist[i].headurl}" alt=""></div> <div class="comment-show-con-list pull-left clearfix"><div class="pl-text clearfix"> <a href="#" class="comment-size-name" data-id="${pllist[i].userid}" data-plid="${pllist[i].id}">${pllist[i].name} : </a> <span class="my-pl-con">&nbsp;${pllist[i].content}</span> </div> <div class="date-dz"> <span class="date-dz-left pull-left comment-time">${pllist[i].time}</span> <div class="date-dz-right pull-right comment-pl-block"><a href="javascript:;" class="removeBlock" data-id="${pllist[i].userid}" data-name="${pllist[i].name}" data-content="${pllist[i].content}">举报</a> <a href="javascript:;" class="date-dz-pl pl-hf pull-left hf-con-block">回复</a></div> </div><div class="hf-list-con" style="display: block;">`
+		html += `<div class="comment-show-con clearfix"><div class="comment-show-con-img pull-left"><img src="${pllist[i].headurl}" alt=""></div> <div class="comment-show-con-list pull-left clearfix"><div class="pl-text clearfix"> <a class="comment-size-name myname" data-uid="${pllist[i].userid}" data-id="${pllist[i].userid}" data-plid="${pllist[i].id}">${pllist[i].name} : </a> <span class="my-pl-con">&nbsp;${pllist[i].content}</span> </div> <div class="date-dz"> <span class="date-dz-left pull-left comment-time">${pllist[i].time}</span> <div class="date-dz-right pull-right comment-pl-block"><a href="javascript:;" class="removeBlock" data-id="${pllist[i].userid}" data-name="${pllist[i].name}" data-content="${pllist[i].content}">举报</a> <a href="javascript:;" class="date-dz-pl pl-hf pull-left hf-con-block">回复</a></div> </div><div class="hf-list-con" style="display: block;">`
 		for(var j = 0 ; j<hflist.length ; j++){
 			if(pllist[i].id == hflist[j].plid){
-				html += `<div class="all-pl-con"><div class="pl-text hfpl-text clearfix"><a href="#" class="comment-size-name" data-id="${hflist[j].hfuserid}" data-plid="${pllist[i].id}">${hflist[j].hfname} : </a><span class="my-pl-con">回复<a href="#" class="atName" data-id="${hflist[j].pluserid}">@${hflist[j].plname} </a> :  ${hflist[j].hfcontent}</span></div><div class="date-dz"> <span class="date-dz-left pull-left comment-time">${hflist[j].time}</span> <div class="date-dz-right pull-right comment-pl-block"> <a href="javascript:;" class="removeBlock" data-id="${hflist[j].hfuserid}" data-name="${hflist[j].hfname}" data-content="${hflist[j].hfcontent}">举报</a> <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left">回复</a> </div> </div></div>`
+				html += `<div class="all-pl-con"><div class="pl-text hfpl-text clearfix"><a class="comment-size-name myname" data-uid="${hflist[j].hfuserid}" data-id="${hflist[j].hfuserid}" data-plid="${pllist[i].id}">${hflist[j].hfname} : </a><span class="my-pl-con">回复<a class="atName myname" data-id="${hflist[j].pluserid}" data-uid="${hflist[j].pluserid}">@${hflist[j].plname} </a> :  ${hflist[j].hfcontent}</span></div><div class="date-dz"> <span class="date-dz-left pull-left comment-time">${hflist[j].time}</span> <div class="date-dz-right pull-right comment-pl-block"> <a href="javascript:;" class="removeBlock" data-id="${hflist[j].hfuserid}" data-name="${hflist[j].hfname}" data-content="${hflist[j].hfcontent}">举报</a> <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left">回复</a> </div> </div></div>`
 			}
 		}
 		html += `</div></div> </div>`
 	}
 	$('.comment-show').html(html)
+	
+	//跳转个人中心
+	$('.myname').on('click',function(){
+		var userid = $(this).attr('data-uid')
+		//url拼接
+		location.href = `http://localhost:2255/html/usermain.html?`+userid
+	})
+	
 	
 	//发送评分
 	$('.sendGrade').on('click',function(){
@@ -287,6 +336,11 @@ $(function(){
 		closeModal()
 	})
 	
+	//关闭敏感词框框
+	$('.goback').on('click',function(){
+		closeFiter()
+	})
+
 	<!--textarea高度自适应-->
 	$('.content').flexText();
 	
@@ -295,7 +349,6 @@ $(function(){
 		if(!validateLogin()){
 			return
 		}
-    	console.log('pinglun')
         var myDate = new Date();
         //获取当前年
         var year=myDate.getFullYear();
@@ -311,6 +364,11 @@ $(function(){
         var now=year+'-'+month+"-"+date+" "+h+':'+m+":"+s;
         //获取输入内容
         var oSize = $(this).siblings('.flex-text-wrap').find('.comment-input').val();
+        console.log(MyFiter(oSize))
+        if(!MyFiter(oSize)){
+        	showFiter()
+        	return
+        }
         //动态创建评论模块
         oHtml = '<div class="comment-show-con clearfix"><div class="comment-show-con-img pull-left"><img src="images/header-img-comment_03.png" alt=""></div> <div class="comment-show-con-list pull-left clearfix"><div class="pl-text clearfix"> <a href="#" class="comment-size-name">David Beckham : </a> <span class="my-pl-con">&nbsp;'+ oSize +'</span> </div> <div class="date-dz"> <span class="date-dz-left pull-left comment-time">'+now+'</span> <div class="date-dz-right pull-right comment-pl-block"><a href="javascript:;" class="removeBlock">删除</a> <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left">回复</a>  </div> </div><div class="hf-list-con"></div></div> </div>';
         if(oSize.replace(/(^\s*)|(\s*$)/g, "") != ''){
@@ -338,6 +396,7 @@ $(function(){
     	if(!validateLogin()){
 			return
 		}
+    	
         //获取回复人的名字
         var fhName = $(this).parents('.date-dz-right').parents('.date-dz').siblings('.pl-text').find('.comment-size-name').html();
         //回复@
@@ -418,7 +477,10 @@ $(function(){
 
 //              var oHtml = '<div class="all-pl-con"><div class="pl-text hfpl-text clearfix"><a href="#" class="comment-size-name">${userinfo.chc} : </a><span class="my-pl-con">'+oAt+'</span></div><div class="date-dz"> <span class="date-dz-left pull-left comment-time">'+now+'</span> <div class="date-dz-right pull-right comment-pl-block"> <a href="javascript:;" class="removeBlock">举报</a> <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left">回复</a> </div> </div></div>';
 //              oThis.parents('.hf-con').parents('.comment-show-con-list').find('.hf-list-con').css('display','block').prepend(oHtml) && oThis.parents('.hf-con').siblings('.date-dz-right').find('.pl-hf').addClass('hf-con-block') && oThis.parents('.hf-con').remove();
-                
+                if(!MyFiter(data.hfContent)){
+		        	showFiter()
+		        	return
+		        }
                 $.ajax({
                 	type:"post",
                 	url:"http://localhost:2255/reply/add",
@@ -435,7 +497,7 @@ $(function(){
                 		location.href = location.href
                 		
                 		/*
-                			注意一定要改我的名字    加上id   不然会报错的 
+                			注意一定要改我的名字    加上id   不然再次回复会报错的 
                 			骚操作处理   不加了
                 		*/
                 	}
@@ -490,6 +552,27 @@ $(function(){
     })
     
 })
+//敏感词过滤
+function MyFiter(str){
+	var fiter = []
+	$.ajax({
+		type:"get",
+		url:"..//json/fiter.json",
+		async:false,
+		success:function(data){
+			fiter = data.data
+		}
+	})
+	for(var i in fiter){
+		if(str.indexOf(fiter[i])>=0){
+			return false
+		}
+	}
+	console.log('allpass')
+	return true
+}
+
+
 <!--textarea限制字数-->
 function keyUP(t){
     var len = $(t).val().length;
@@ -505,6 +588,9 @@ $(window).scroll(function(){
 		'bottom':'0'
 	})
 	$('#layer').css({
+		top:top+150+'px'
+	})
+	$('#fiter').css({
 		top:top+150+'px'
 	})
 	$('#inform').css({
@@ -540,6 +626,17 @@ function closeModal(){
 function showModal(){
 	$('#muhu').css({'display':'block'})
 	$('#layer').css({'display':'block'})
+}
+
+//关闭敏感词模态框
+function closeFiter(){
+	$('#muhu').css({'display':'none'})
+	$('#fiter').css({'display':'none'})
+}
+//打开敏感词模态框
+function showFiter(){
+	$('#muhu').css({'display':'block'})
+	$('#fiter').css({'display':'block'})
 }
 function addZero(i){
 	if (i<10) {

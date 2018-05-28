@@ -43,6 +43,8 @@ module.exports.listen = function(app,conn){
                 				sql = `delete  from irregularity where u_id = ${result[0].id}`
                 				console.log(sql)
                 				conn.query(sql,function(err,results){
+                					req.session.user = result[0]
+                					console.log(req.session)
 		                			res.send({
 				                		code:200,
 				                    	msg:'success',
@@ -62,6 +64,8 @@ module.exports.listen = function(app,conn){
                 			}
                 		})
                 	}else{
+                		req.session.user = result[0]
+                		console.log(req.session)
                 		res.send({
 	                		code:200,
 	                    	msg:'success',
@@ -76,6 +80,18 @@ module.exports.listen = function(app,conn){
                 
             }
         })
+    })
+    //验证是否登录	
+    app.post('/user/isLogin',function(req,res){
+    	if(req.session.user){
+    		if(req.session.user.id==req.body.id){
+	    		res.send('success')
+	    	}else{
+	    		res.send('err')
+	    	}
+    	}else{
+    		res.send('err')
+    	}
     })
     
     //获取用户信息

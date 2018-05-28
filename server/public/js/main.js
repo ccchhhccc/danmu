@@ -168,6 +168,12 @@
 				$('#layer').css({'display':'block'})
             	return
             }
+            //过滤器
+            if(!MyFiter(text)){
+	        	$('#muhu').css({'display':'block'})
+				$('#fiter').css({'display':'block'})
+	        	return
+	        }
             text = text.replace(/&/g, "&gt;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/\n/g, "<br>");
             var color = e.data.that.danmuColor;
             var position = $(e.data.that.id + " input[name=danmu_position]:checked").val();
@@ -437,3 +443,23 @@
 
 
 })(jQuery);
+
+//敏感词过滤
+function MyFiter(str){
+	var fiter = []
+	$.ajax({
+		type:"get",
+		url:"..//json/fiter.json",
+		async:false,
+		success:function(data){
+			fiter = data.data
+		}
+	})
+	for(var i in fiter){
+		if(str.indexOf(fiter[i])>=0){
+			return false
+		}
+	}
+	console.log('allpass')
+	return true
+}

@@ -1,11 +1,58 @@
 $(function(){
-	//假装有用户
-	sessionStorage.setItem("userid", "13")
+
 	//获取用户id
-	var u_id = sessionStorage.getItem("userid")
-	if(u_id==undefined ||u_id==0){
-		return
+	var userid = sessionStorage.getItem('userid')
+	var u_id = userid
+	console.log(userid)
+	
+	//判断是否登录
+	$.ajax({
+		type:"post",
+		url:"http://localhost:2255/user/isLogin",
+		data:{
+			id:userid
+		},
+		async:false,
+		success:function(data){
+			//如果用户和服务端不匹配
+			if(data=='err'){
+				userid = 0 
+				sessionStorage.setItem("userid", "0")
+			}
+		}
+	});
+	
+	if(userid!=undefined && userid!=0 && userid!=null){
+		//获取用户信息
+		$.ajax({
+			type:"post",
+			url:"http://localhost:2255/user/getInfo",
+			data:{
+				id:userid
+			},
+			async:false,
+			success:function(data){
+				var html = `<img class="myname" src="${data.data.headurl}" data-uid="${data.data.id}"/>
+							<a class="myname" data-uid="${data.data.id}">${data.data.name}</a>`
+				$('.my').html(html)
+				$('.user').css({'display':'none'})
+			}
+		});
 	}
+	//拼接用户导航条
+	var tobarHtml = `<li><a href="http://localhost:2255/html/usermain.html?${u_id}">主页</a></li>
+					 <li><a href="http://localhost:2255/html/usercenter.html?${u_id}">关注</a></li>
+					 <li><a href="http://localhost:2255/html/fans.html?${u_id}">粉丝</a></li>
+					 <li class="active"><a href="http://localhost:2255/html/collect.html?${u_id}">收藏</a></li>
+					 <li class="set"><a href="http://localhost:2255/html/setting.html?${u_id}">设置</a></li>
+					 <li>
+						<i class="bi">233</i>
+					 </li>
+					 <li class="qiandao">
+						
+					 </li>`
+	$('.tobar').html(tobarHtml)
+	
 	var userinfo = {}
 	//获取查看的用户信息
 	$.ajax({

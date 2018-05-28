@@ -3,6 +3,21 @@ $(function(){
 	//获取用户id
 	var userid = sessionStorage.getItem('userid')
 	console.log(userid)
+	//判断是否登录
+	$.ajax({
+		type:"post",
+		url:"http://localhost:2255/user/isLogin",
+		data:{
+			id:userid
+		},
+		async:false,
+		success:function(data){
+			//如果用户和服务端不匹配
+			if(data=='err'){
+				userid = 0 
+			}
+		}
+	});
 	
 	if(userid!=undefined && userid!=0 && userid!=null){
 		//获取用户信息
