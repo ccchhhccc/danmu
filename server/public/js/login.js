@@ -31,6 +31,11 @@ $(function(){
 			}
 		})
 	})
+	
+	//跳转忘记密码
+	$('.toforget').on('click',function(){
+		location.href = `http://localhost:2255/html/forgetPwd.html`
+	})
 })
 function addZero(i){
 	if (i<10) {

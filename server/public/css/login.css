@@ -6,6 +6,12 @@ h3{padding: 20px 0;text-align: center;}
 input{width: 300px;height: 46px;margin: 20px 0;margin-left: 20px;text-indent: 10px;}
 #login{display: block;background: #d04335;height: 44px;text-align: center;line-height: 44px;width: 300px;margin: 10px 0px 20px 20px;color: #fff;}
 p{font-size:12px;color:#D04335;margin: 10px 20px 20px 20px;}
+#pwd{
+	margin-bottom: 5px;
+}
+.toforget{
+	cursor: pointer;
+}
 #notic{
 	display: none;
 }

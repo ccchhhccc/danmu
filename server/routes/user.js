@@ -24,6 +24,28 @@ module.exports.listen = function(app,conn){
     			
     })
     
+    //用户重置密码
+    app.post('/user/resetPwd',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	//判断手机是否已经注册
+    	var sql = `select * from user where phone = ${req.body.phone}`
+		conn.query(sql,function(err,result){
+			if(err){
+				res.send('err')
+			}else if(result.length == 0){
+				res.send('err')
+			}else{
+				//更新密码
+				sql = `update user set pwd  = '${req.body.pwd}' where phone = '${req.body.phone}'`
+				console.log(sql)
+				conn.query(sql,function(err,result){
+					res.send('success')
+				})
+			}
+		})
+    			
+    })
+    
     //用户登录
     app.post('/user/login',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");
