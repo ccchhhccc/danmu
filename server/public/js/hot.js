@@ -30,6 +30,7 @@ $(function(){
 			async:false,
 			success:function(data){
 				var html = `<img class="myname" src="${data.data.headurl}" data-uid="${data.data.id}"/>
+							<i id="toUpload">投稿</i>
 							<a class="myname" data-uid="${data.data.id}">${data.data.name}</a>`
 				$('.my').html(html)
 				$('.user').css({'display':'none'})
@@ -78,6 +79,10 @@ $(function(){
 	var page = 1
 	$('.allList').find('ul').html(addInfo(allvideo,page,collection,dandan))
 	
+	//跳转投稿
+	$('#toUpload').on('click',function(){
+		location.href = `http://localhost:2255/html/contribute.html`
+	})
 	
 	$(window).scroll(function(){
 		var scrollTop = $(this).scrollTop();

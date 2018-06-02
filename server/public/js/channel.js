@@ -31,6 +31,7 @@ $(function(){
 			async:false,
 			success:function(data){
 				var html = `<img class="myname" src="${data.data.headurl}" data-uid="${data.data.id}"/>
+							<i id="toUpload">投稿</i>
 							<a class="myname" data-uid="${data.data.id}">${data.data.name}</a>`
 				$('.my').html(html)
 				$('.user').css({'display':'none'})
@@ -84,5 +85,10 @@ $(function(){
 		var userid = $(this).attr('data-uid')
 		//url拼接
 		location.href = `http://localhost:2255/html/usermain.html?`+userid
+	})
+	
+	//跳转投稿
+	$('#toUpload').on('click',function(){
+		location.href = `http://localhost:2255/html/contribute.html`
 	})
 })

@@ -49,6 +49,7 @@ $(function(){
 			async:false,
 			success:function(data){
 				var html = `<img class="myname" src="${data.data.headurl}" data-uid="${data.data.id}"/>
+							<i id="toUpload">投稿</i>
 							<a class="myname" data-uid="${data.data.id}">${data.data.name}</a>`
 				$('.my').html(html)
 				$('.user').css({'display':'none'})
@@ -72,6 +73,7 @@ $(function(){
 	
 	var leval = []
 	var myleval = 1
+	var mytitle = ''
 	//获取等级
 	$.ajax({
 		type:"post",
@@ -83,6 +85,7 @@ $(function(){
 			for(var i in data){
 				if(Number(userinfo.leval)<data[i].value){
 					myleval = Number(i)+1
+					mytitle = data[i].title
 					break
 				}
 			}
@@ -96,7 +99,7 @@ $(function(){
 					<img src="${userinfo.headurl}" class="user-head"/>
 					<div class="user-info">
 						<h3>${userinfo.name}</h3>
-						<span>LV${myleval}</span>
+						<span>${mytitle}</span>
 						<p>${userinfo.signname==null?'':userinfo.signname}</p>
 					</div>
 				</div>`
@@ -136,6 +139,11 @@ $(function(){
 		$('.set').css({'display':'none'})
 		
 	}
+	
+	//跳转投稿
+	$('#toUpload').on('click',function(){
+		location.href = `http://localhost:2255/html/contribute.html`
+	})
 	
 	//关注&&取消关注
 	$('.like').on('click',function(){
@@ -276,9 +284,9 @@ $(function(){
 					}
 				}
 				html += `<li>
-							<img src="${data[i].v_img}" />
+							<img src="${data[i].v_img}" class="tovideo" data-vid="${data[i].id}"/>
 							<div class="info">
-								<h5>${data[i].v_name}</h5>
+								<h5 class="tovideo" data-vid="${data[i].id}">${data[i].v_name}</h5>
 								<i class="seenum"></i>
 								<span>${data[i].v_num}</span>
 								<i class="danmunum"></i>
@@ -299,6 +307,11 @@ $(function(){
 			
 		}
 	});
+	
+	$('.tovideo').on('click',function(){
+		var vid = $(this).attr('data-vid')
+		location.href = `http://localhost:2255/html/detail.html?` + vid
+	})
 	
 	//收藏&&取消
 	$('.yeah').on('click',function(){

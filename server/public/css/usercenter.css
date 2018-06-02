@@ -69,10 +69,13 @@ html{
 	font-size: 13px;
 	cursor: pointer;
 }
-.bar ul li:hover{
+.bar ul li a{
+	color: #111111;
+}
+.bar ul li a:hover{
 	color: #00a1d6;
 }
-.active{
+.bar .active a{
 	color: #00a1d6;
 }
 .tab{

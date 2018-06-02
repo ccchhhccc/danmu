@@ -48,6 +48,7 @@ $(function(){
 			async:false,
 			success:function(data){
 				var html = `<img class="myname" src="${data.data.headurl}" data-uid="${data.data.id}"/>
+							<i id="toUpload">投稿</i>
 							<a class="myname" data-uid="${data.data.id}">${data.data.name}</a>`
 				$('.my').html(html)
 				$('.user').css({'display':'none'})
@@ -70,6 +71,7 @@ $(function(){
 	
 	var leval = []
 	var myleval = 1
+	var mytitle = ''
 	//获取等级
 	$.ajax({
 		type:"post",
@@ -81,6 +83,7 @@ $(function(){
 			for(var i in data){
 				if(Number(userinfo.leval)<data[i].value){
 					myleval = Number(i)+1
+					mytitle = data[i].title
 					break
 				}
 			}
@@ -93,7 +96,7 @@ $(function(){
 					<img src="${userinfo.headurl}" class="user-head"/>
 					<div class="user-info">
 						<h3>${userinfo.name}</h3>
-						<span>LV${myleval}</span>
+						<span>${mytitle}</span>
 						<p>${userinfo.signname==null?'':userinfo.signname}</p>
 					</div>
 				</div>`
@@ -134,6 +137,11 @@ $(function(){
 		$('.set').css({'display':'none'})
 		
 	}
+	
+	//跳转投稿
+	$('#toUpload').on('click',function(){
+		location.href = `http://localhost:2255/html/contribute.html`
+	})
 	
 	//关注&&取消关注
 	$('.like').on('click',function(){
@@ -230,7 +238,7 @@ $(function(){
 		html += `<li>
 					<img class="focus" src="${himlike[i].headurl}"/>
 					<div class="focus-info">
-						<span>${himlike[i].name}</span>
+						<span class="myname" data-uid="${himlike[i].u_id}">${himlike[i].name}</span>
 						<p>${himlike[i].signname==null?'':himlike[i].signname}</p>
 					</div>
 					<a class="tolike ${himlike[i].u_id==sessionStorage.getItem("userid")?'tohide':''}"  data-id="${himlike[i].u_id}">${flag?'已关注':'关注'}</a>

@@ -15,6 +15,7 @@ $(function(){
 			//如果用户和服务端不匹配
 			if(data=='err'){
 				userid = 0 
+				sessionStorage.setItem("userid", "0")
 			}
 		}
 	});
@@ -30,7 +31,9 @@ $(function(){
 			async:false,
 			success:function(data){
 				var html = `<img class="myname" src="${data.data.headurl}" data-uid="${data.data.id}"/>
+							<i id="toUpload">投稿</i>
 							<a class="myname" data-uid="${data.data.id}">${data.data.name}</a>`
+							
 				$('.my').html(html)
 				$('.user').css({'display':'none'})
 			}
@@ -132,6 +135,11 @@ $(function(){
 		var videoid = $(this).attr('data-id')
 		//url拼接
 		location.href = `http://localhost:2255/html/detail.html?`+videoid
+	})
+	
+	//跳转投稿
+	$('#toUpload').on('click',function(){
+		location.href = `http://localhost:2255/html/contribute.html`
 	})
 })
 // 转时间 如 2017-11-3 18:08:15

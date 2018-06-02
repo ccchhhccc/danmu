@@ -49,6 +49,7 @@ $(function(){
 			async:false,
 			success:function(data){
 				var html = `<img class="myname" src="${data.data.headurl}" data-uid="${data.data.id}"/>
+							<i id="toUpload">投稿</i>
 							<a class="myname" data-uid="${data.data.id}">${data.data.name}</a>`
 				$('.my').html(html)
 				$('.user').css({'display':'none'})
@@ -72,6 +73,7 @@ $(function(){
 	
 	var leval = []
 	var myleval = 1
+	var mytitle = ''
 	//获取等级
 	$.ajax({
 		type:"post",
@@ -83,6 +85,7 @@ $(function(){
 			for(var i in data){
 				if(Number(userinfo.leval)<data[i].value){
 					myleval = Number(i)+1
+					mytitle = data[i].title
 					break
 				}
 			}
@@ -95,7 +98,7 @@ $(function(){
 					<img src="${userinfo.headurl}" class="user-head"/>
 					<div class="user-info">
 						<h3>${userinfo.name}</h3>
-						<span>LV${myleval}</span>
+						<span>${mytitle}</span>
 						<p>${userinfo.signname==null?'':userinfo.signname}</p>
 					</div>
 				</div>`
@@ -177,6 +180,11 @@ $(function(){
 		}
 	})
 	
+	//跳转投稿
+	$('#toUpload').on('click',function(){
+		location.href = `http://localhost:2255/html/contribute.html`
+	})
+	
 	//签到
 	$('.signin').on('click',function(){
 		$.ajax({
@@ -234,9 +242,9 @@ $(function(){
 		}
 		console.log(flag)
 		html += `<li>
-					<img class="focus" src="${himfans[i].headurl}"/>
+					<img class="focus toUser" src="${himfans[i].headurl}" data-uid="${himfans[i].id}"/>
 					<div class="focus-info">
-						<span>${himfans[i].name}</span>
+						<span class="toUser" data-uid="${himfans[i].id}">${himfans[i].name}</span>
 						<p>${himfans[i].signname==null?'':himfans[i].signname}</p>
 					</div>
 					<a class="tolike  ${himfans[i].id==sessionStorage.getItem("userid")?'tohide':''}" data-id="${himfans[i].id}">${flag?'已关注':'关注'}</a>
@@ -280,6 +288,11 @@ $(function(){
 				}
 			});
 		}
+	})
+	
+	$('.toUser').on('click',function(){
+		var uid = $(this).attr('data-uid')
+		location.href = `http://localhost:2255/html/usermain.html?` + uid
 	})
 	
 	if(userinfo.fans==1 && u_id!=sessionStorage.getItem("userid")){

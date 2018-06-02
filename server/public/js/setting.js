@@ -33,6 +33,7 @@ $(function(){
 			async:false,
 			success:function(data){
 				var html = `<img class="myname" src="${data.data.headurl}" data-uid="${data.data.id}"/>
+							<i id="toUpload">投稿</i>
 							<a class="myname" data-uid="${data.data.id}">${data.data.name}</a>`
 				$('.my').html(html)
 				$('.user').css({'display':'none'})
@@ -43,8 +44,8 @@ $(function(){
 	var tobarHtml = `<li><a href="http://localhost:2255/html/usermain.html?${u_id}">主页</a></li>
 					 <li><a href="http://localhost:2255/html/usercenter.html?${u_id}">关注</a></li>
 					 <li><a href="http://localhost:2255/html/fans.html?${u_id}">粉丝</a></li>
-					 <li class="active"><a href="http://localhost:2255/html/collect.html?${u_id}">收藏</a></li>
-					 <li class="set"><a href="http://localhost:2255/html/setting.html?${u_id}">设置</a></li>
+					 <li><a href="http://localhost:2255/html/collect.html?${u_id}">收藏</a></li>
+					 <li class="set active"><a href="http://localhost:2255/html/setting.html?${u_id}">设置</a></li>
 					 <li>
 						<i class="bi">233</i>
 					 </li>
@@ -69,6 +70,7 @@ $(function(){
 	
 	var leval = []
 	var myleval = 1
+	var mytitle = ''
 	//获取等级
 	$.ajax({
 		type:"post",
@@ -80,6 +82,7 @@ $(function(){
 			for(var i in data){
 				if(Number(userinfo.leval)<data[i].value){
 					myleval = Number(i)+1
+					mytitle = data[i].title
 					break
 				}
 			}
@@ -93,7 +96,7 @@ $(function(){
 					<img src="${userinfo.headurl}" class="user-head"/>
 					<div class="user-info">
 						<h3>${userinfo.name}</h3>
-						<span>LV${myleval}</span>
+						<span>${mytitle}</span>
 						<p>${userinfo.signname==null?'':userinfo.signname}</p>
 					</div>
 				</div>`
@@ -323,6 +326,10 @@ $(function(){
 		$(this).css({'display':'none'})
 	})
 	
+	//跳转投稿
+	$('#toUpload').on('click',function(){
+		location.href = `http://localhost:2255/html/contribute.html`
+	})
 	
 	//确认上传头像
 	$('.savehead').on('click',function(){

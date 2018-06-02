@@ -48,6 +48,7 @@ $(function(){
 			async:false,
 			success:function(data){
 				var html = `<img class="myname" src="${data.data.headurl}" data-uid="${data.data.id}"/>
+							<i id="toUpload">投稿</i>
 							<a class="myname" data-uid="${data.data.id}">${data.data.name}</a>`
 				$('.my').html(html)
 				$('.user').css({'display':'none'})
@@ -71,6 +72,7 @@ $(function(){
 	
 	var leval = []
 	var myleval = 1
+	var mytitle = ''
 	//获取等级
 	$.ajax({
 		type:"post",
@@ -82,6 +84,7 @@ $(function(){
 			for(var i in data){
 				if(Number(userinfo.leval)<data[i].value){
 					myleval = Number(i)+1
+					mytitle = data[i].title
 					break
 				}
 			}
@@ -94,7 +97,7 @@ $(function(){
 					<img src="${userinfo.headurl}" class="user-head"/>
 					<div class="user-info">
 						<h3>${userinfo.name}</h3>
-						<span>LV${myleval}</span>
+						<span>${mytitle}</span>
 						<p>${userinfo.signname==null?'':userinfo.signname}</p>
 					</div>
 				</div>`
@@ -250,20 +253,32 @@ $(function(){
 			}
 		}
 		html += `<li>
-					<img src="${himcollection[i].v_img}" />
+					<img src="${himcollection[i].v_img}" class="tovideo" data-vid="${himcollection[i].v_id}"/>
 					<div class="info">
-						<h5>${himcollection[i].v_name}</h5>
+						<h5  class="tovideo" data-vid="${himcollection[i].v_id}">${himcollection[i].v_name}</h5>
 						<i class="seenum"></i>
 						<span>${himcollection[i].v_num}</span>
 						<i class="danmunum"></i>
 						<span>${dandanflag?dandan[k].sum:0}</span>
 						<i class="author"></i>
-						<span class="authorname">${himcollection[i].name}</span>
+						<span class="authorname toUser" data-uid="${himcollection[i].u_id}">${himcollection[i].name}</span>
 					</div>
 					<a class="tocollectvideo" data-id="${himcollection[i].v_id}">${flag?'已收藏':'收藏'}</a>
 				</li>`
 	}
 	$('.mycollection').html(html)
+	
+	
+	//跳转收藏的视频详情
+	$('.tovideo').on('click',function(){
+		var vid = $(this).attr('data-vid')
+		location.href = `http://localhost:2255/html/detail.html?` + vid
+	})
+	
+	$('.toUser').on('click',function(){
+		var uid = $(this).attr('data-uid')
+		location.href = `http://localhost:2255/html/usercenter.html?` + uid
+	})
 	
 	//列表收藏&&取消收藏
 	$('.tocollectvideo').on('click',function(){
@@ -321,6 +336,11 @@ $(function(){
 		var userid = $(this).attr('data-uid')
 		//url拼接
 		location.href = `http://localhost:2255/html/usermain.html?`+userid
+	})
+	
+	//跳转投稿
+	$('#toUpload').on('click',function(){
+		location.href = `http://localhost:2255/html/contribute.html`
 	})
 	
 	//滚动事件
