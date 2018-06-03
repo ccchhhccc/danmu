@@ -74,6 +74,8 @@ $(function(){
 		}
 	});
 	
+	
+	
 	//获取收藏信息
 	$.ajax({
 		type:"post",
@@ -557,13 +559,38 @@ $(function(){
 		$('#inform').css({'display':'none'})
     })
     
+    //如果是vip视频则进行对用户身份判断  如果不是会员则将视频源替换成默认视频
+    if(videoinfo.v_status==3){
+    	//判断用户是否为会员
+    	$.ajax({
+			type:"post",
+			url:"http://localhost:2255/user/isVip",
+			data:{
+				u_id:sessionStorage.getItem('userid')
+			},
+			async:false,
+			success:function(data){
+				//如果不是会员  则替换视频内容
+				if(data=='no'){
+					$('#muhu').css({'display':'block'})
+					$('#vipnotic').css({'display':'block'})
+					$('video').attr({'src':''})
+				}
+			}
+		})
+    }
+    
+    $('.novip').on('click',function(){
+    	location.href = `http://localhost:2255`
+    })
+    
 })
 //敏感词过滤
 function MyFiter(str){
 	var fiter = []
 	$.ajax({
 		type:"get",
-		url:"..//json/fiter.json",
+		url:"../json/fiter.json",
 		async:false,
 		success:function(data){
 			fiter = data.data

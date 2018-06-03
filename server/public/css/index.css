@@ -79,6 +79,9 @@ a{
 .main h3{
 	margin:10px 0;
 }
+.main h3:hover{
+	color:skyblue
+}
 .right-content{
 	float: left;
 }

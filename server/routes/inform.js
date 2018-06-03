@@ -66,4 +66,22 @@ module.exports.listen = function(app,conn){
         })
     })
     
+    
+    //封禁时删除评论或回复
+    app.post('/inform/delmessage',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sqlpl = `delete from pl where userid = ${req.body.u_id} and content like '%${req.body.content}%' `
+    	console.log(sqlpl)
+    	conn.query(sqlpl,function(err,result){
+    		
+        })
+    	
+    	var sqlhf = `delete from hf where hfuserid = ${req.body.u_id} and hfcontent like '%${req.body.content}%'`
+    	console.log(sqlhf)
+    	conn.query(sqlhf,function(err,result){
+    		
+        })
+    	res.send('success')
+    })
+    
 }

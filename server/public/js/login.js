@@ -36,6 +36,12 @@ $(function(){
 	$('.toforget').on('click',function(){
 		location.href = `http://localhost:2255/html/forgetPwd.html`
 	})
+	
+	//关闭账号封禁模态框
+	$('#btn').on('click',function(){
+		$('#muhu').css({'display':'none'})
+		$('#layer').css({'display':'none'})
+	})
 })
 function addZero(i){
 	if (i<10) {

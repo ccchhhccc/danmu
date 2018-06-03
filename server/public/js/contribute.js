@@ -58,6 +58,7 @@ $(function(){
 	
 	var leval = []
 	var myleval = 1
+	var mytitle  = ''
 	//获取等级
 	$.ajax({
 		type:"post",
@@ -69,6 +70,7 @@ $(function(){
 			for(var i in data){
 				if(Number(userinfo.leval)<data[i].value){
 					myleval = Number(i)+1
+					mytitle = data[i].title
 					break
 				}
 			}
@@ -82,7 +84,7 @@ $(function(){
 					<img src="${userinfo.headurl}" class="user-head"/>
 					<div class="user-info">
 						<h3>${userinfo.name}</h3>
-						<span>LV${myleval}</span>
+						<span>${mytitle}</span>
 						<p>${userinfo.signname==null?'':userinfo.signname}</p>
 					</div>
 				</div>`
@@ -146,10 +148,33 @@ $(function(){
         if (evt.lengthComputable) {
           var percentComplete = Math.round(evt.loaded * 100 / evt.total);
           document.getElementById('num').innerHTML = percentComplete.toString() + '%';
+          //修改弹窗的进度
+          $('#fiter').find('h3').html('已上传'+percentComplete.toString()+'%')
         }
     }
 	console.log()
+	
+	//上传标志
+	var uploadFlag = false
 	$('.upload').on('click',function(){
+		
+		//去除前后空格
+		$('.v_name').val($('.v_name').val().trim())
+		$('.v_brief').val($('.v_brief').val().trim())
+		//空值判断
+		if($('#file').val()=='' || $('#videofile').val()==''){
+			showNotic()
+			return
+		}
+		if($('.v_name').val()=='' || $('.v_brief').val()==''){
+			showNotic()
+			return
+		}
+		
+		//开始上传  &&  应参影藏按钮
+		$('#muhu').css({'display':'block'})
+		$('#fiter').css({'display':'block'}).find('a').css({'display':'none'})
+		
 		var fd = new FormData();
         fd.append("videofile", document.getElementById('videofile').files[0]);
         var xhr = new XMLHttpRequest();
@@ -194,10 +219,93 @@ $(function(){
 					},
 					async:false,
 					success:function(data){
-						console.log(data)
+						//改变弹窗符号
+						changeSymbol()
+						//显示两个按钮
+						$('#fiter').find('a').css({'display':'inline-block'})
 					}
 				});
 			}
 		}
 	})
+	
+	//滚动事件
+	$(window).scroll(function(){
+		var top = $(window).scrollTop()
+		$('#muhu').css({
+			'top':top+'px',
+			'bottom':'0'
+		})
+		$('#layer').css({
+			top:top+150+'px'
+		})
+		$('#fiter').css({
+			top:top+150+'px'
+		})
+	})
+	
+	//关闭输入提示框
+	$('#btn').on('click',function(){
+		closeNotic()
+	})
+	
+	//继续上传
+	$('.continueUpload').on('click',function(){
+		location.href = location.href
+	})
+	
+	//返回主页
+	$('.goback').on('click',function(){
+		var uid = sessionStorage.getItem("userid")
+		location.href = `http://localhost:2255/html/usermain.html?` + uid
+	})
 })
+//打开输入提示模态框
+function showNotic(){
+	$('#muhu').css({'display':'block'})
+	$('#layer').css({'display':'block'})
+}
+//关闭输入提示模态框
+function closeNotic(){
+	$('#muhu').css({'display':'none'})
+	$('#layer').css({'display':'none'})
+}
+
+
+//将感叹号变为勾勾   && 变信息
+function changeSymbol(){
+	$('#fiter').find('i').css({
+		'display': 'inline-block',
+		'width': '88px',
+		'height': '88px',
+		'background': '#fff',
+		'border': '4px solid #edf8e7',
+		'border-radius': '50%',
+		'margin-top': '35px'
+	})
+	$('#fiter').find('em').css({
+		'height': '5px',
+		'width': '25px',
+		'position': 'absolute',
+		'background': '#a5dc86',
+		'border-radius': '2px',
+		'left': '50%',
+		'margin-left': '-26px',
+		'top': '89px',
+		'transform': 'rotate(45deg)'
+	})
+	$('#fiter').find('b').css({
+		'height': '5px',
+		'width': '47px',
+		'position': 'absolute',
+		'background': '#a5dc86',
+		'border-radius': '2px',
+		'left': '50%',
+		'margin-left': '-13px',
+		'top': '83px',
+		'transform': 'rotate(-45deg)'
+	})
+	
+	$('#fiter').find('h3').html('投稿成功')
+	$('#fiter').find('p').html('您已成功投稿，管理员审核后可上线')
+}

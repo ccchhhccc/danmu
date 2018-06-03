@@ -36,7 +36,8 @@ module.exports.listen = function(app,conn){
 			            }
 			        })
             	}else{
-            		var updatesql = `update irregularity set time = '${req.body.time}' , reason = ${req.body.reason} , starttime = ${new Date().getTime()} where u_id = ${req.body.u_id}`;
+            		var updatesql = `update irregularity set time = '${req.body.time}' , reason = '${req.body.reason}' , starttime = '${new Date().getTime()}' where u_id = ${req.body.u_id}`;
+            		console.log(updatesql)
 			        conn.query(updatesql,function(err,result){
 			            if(err){
 			                res.send('err')
@@ -58,7 +59,10 @@ module.exports.listen = function(app,conn){
             if(err){
                 res.send('err')
             }else{
-                res.send(result[0])
+            	if(result.length!=0){
+            		res.send(result[0])
+            	}
+                
             }
         })
     })

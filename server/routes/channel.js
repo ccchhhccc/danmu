@@ -5,7 +5,8 @@ module.exports.listen = function(app,conn){
     //查找频道
     app.post('/channel',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");
-        conn.query(`select * from channel order by sort`,function(err,result){
+        conn.query(`select channel.*,count(video.c_id) as count_num from channel LEFT JOIN video on video.c_id = channel.c_id
+ GROUP BY channel.c_id ORDER BY sort`,function(err,result){
             if(err){
                 res.send('err')
             }else{
@@ -77,7 +78,10 @@ module.exports.listen = function(app,conn){
             if(err){
                 res.send('err')
             }else{
-                res.send(result[0])
+            	if(result.length!=0){
+            		res.send(result[0])
+            	}
+                
             }
         })
     })

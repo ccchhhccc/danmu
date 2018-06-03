@@ -8,19 +8,22 @@ module.exports.listen = function(app,conn){
     	console.log(sql)
     	var obj = {}
     	conn.query(sql,function(err,result){
-    		obj.count = result[0].count
-    		obj.avg = result[0].avg
-    		sql = `select * from grade where u_id = ${req.body.u_id} and v_id = ${req.body.v_id}`
-	    	console.log(sql)
-	    	conn.query(sql,function(err,result){
-	    		if(result.length==0){
-	    			obj.isGrade = false
-	    		}else{
-	    			obj.isGrade = true
-	    			obj.grade = result[0].num
-	    		}
-	    		res.send(obj)
-	    	})
+    		if(result.length!=0){
+    			obj.count = result[0].count
+	    		obj.avg = result[0].avg
+	    		sql = `select * from grade where u_id = ${req.body.u_id} and v_id = ${req.body.v_id}`
+		    	console.log(sql)
+		    	conn.query(sql,function(err,result){
+		    		if(result.length==0){
+		    			obj.isGrade = false
+		    		}else{
+		    			obj.isGrade = true
+		    			obj.grade = result[0].num
+		    		}
+		    		res.send(obj)
+		    	})
+    		}
+    		
     	})
     })
     

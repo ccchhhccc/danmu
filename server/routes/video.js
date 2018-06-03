@@ -15,12 +15,61 @@ module.exports.listen = function(app,conn){
     	console.log(contentSql)
     	//数据查询
         conn.query(countSql,function(err,result){
-            obj.total = result[0].count
-            conn.query(contentSql,function(err,result){
-	            obj.data = result
-	            obj.currpage = Number(req.body.page)
-	            res.send(obj)
-	        })
+        	if(result.length!=0){
+        		obj.total = result[0].count
+	            conn.query(contentSql,function(err,result){
+		            obj.data = result
+		            obj.currpage = Number(req.body.page)
+		            res.send(obj)
+		        })
+        	}
+            
+        })
+    })
+    
+    //分页查所有审核的视频    未审核视频状态为0   附加搜索   视频名称v_name   简介v_brief   频道c_id
+    app.post('/video/sold',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var obj = {}
+    	//获取总条数
+    	var countSql = `select count(*) as count  from video where (v_name like '%${req.body.filter ? req.body.filter : ''}%' or v_brief like '%${req.body.filter ? req.body.filter : ''}%') ${req.body.c_id ?  'and video.c_id ='+ req.body.c_id : ''} and (v_status = 1 or v_status = 3)`
+    	//获取数据
+    	var contentSql = `select video.* , channel.name as channelname , user.name as username from video , user , channel where (v_name like '%${req.body.filter ? req.body.filter : ''}%' or v_brief like '%${req.body.filter ? req.body.filter : ''}%' ) ${req.body.c_id ?  'and video.c_id ='+ req.body.c_id : ''}  and user.id = video.u_id and channel.c_id = video.c_id and (video.v_status = 1 or video.v_status = 3)LIMIT ${pageNum*(req.body.page -1)} , ${pageNum}`
+    	console.log(contentSql)
+    	//数据查询
+        conn.query(countSql,function(err,result){
+        	if(result.length!=0){
+        		obj.total = result[0].count
+	            conn.query(contentSql,function(err,result){
+		            obj.data = result
+		            obj.currpage = Number(req.body.page)
+		            res.send(obj)
+		        })
+        	}
+            
+        })
+    })
+    
+    //分页查所有下架或退回的视频    未审核视频状态为0   附加搜索   视频名称v_name   简介v_brief   频道c_id
+    app.post('/video/put',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var obj = {}
+    	//获取总条数
+    	var countSql = `select count(*) as count  from video where (v_name like '%${req.body.filter ? req.body.filter : ''}%' or v_brief like '%${req.body.filter ? req.body.filter : ''}%') ${req.body.c_id ?  'and video.c_id ='+ req.body.c_id : ''} and (v_status = 2)`
+    	//获取数据
+    	var contentSql = `select video.* , channel.name as channelname , user.name as username from video , user , channel where (v_name like '%${req.body.filter ? req.body.filter : ''}%' or v_brief like '%${req.body.filter ? req.body.filter : ''}%' ) ${req.body.c_id ?  'and video.c_id ='+ req.body.c_id : ''}  and user.id = video.u_id and channel.c_id = video.c_id and (video.v_status = 2)LIMIT ${pageNum*(req.body.page -1)} , ${pageNum}`
+    	console.log(contentSql)
+    	//数据查询
+        conn.query(countSql,function(err,result){
+        	if(result.length!=0){
+        		obj.total = result[0].count
+	            conn.query(contentSql,function(err,result){
+		            obj.data = result
+		            obj.currpage = Number(req.body.page)
+		            res.send(obj)
+		        })
+        	}
+            
         })
     })
     
@@ -30,7 +79,10 @@ module.exports.listen = function(app,conn){
     	var sql = `select video.* , channel.name as channelname , user.name as username from video , user , channel where user.id = video.u_id and channel.c_id = video.c_id and video.id = ${req.body.id}` 
     	console.log(sql)
     	conn.query(sql,function(err,result){
-    		res.send(result[0])	
+    		if(result.length!=0){
+    			res.send(result[0])	
+    		}
+    		
 	    })
     })
     

@@ -78,7 +78,10 @@ module.exports.listen = function(app,conn){
             if(err){
                 res.send('err')
             }else{
-                res.send(result[0])
+            	if(result.length!=0){
+            		res.send(result[0])
+            	}
+                
             }
         })
     })

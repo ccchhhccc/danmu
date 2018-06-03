@@ -277,7 +277,7 @@ $(function(){
 	
 	$('.toUser').on('click',function(){
 		var uid = $(this).attr('data-uid')
-		location.href = `http://localhost:2255/html/usercenter.html?` + uid
+		location.href = `http://localhost:2255/html/usermain.html?` + uid
 	})
 	
 	//列表收藏&&取消收藏

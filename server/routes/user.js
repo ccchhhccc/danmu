@@ -61,7 +61,9 @@ module.exports.listen = function(app,conn){
                 		sql = `select * from irregularity where u_id = ${result[0].id}`
                 		console.log(sql)
                 		conn.query(sql,function(err,results){
+                			//判断时间是否还在封禁期间
                 			if(Number(results[0].starttime) + Number(results[0].time) <new Date().getTime()){
+                				//已经过了封禁期间   则删除封禁记录和更新用户的状态
                 				sql = `delete  from irregularity where u_id = ${result[0].id}`
                 				console.log(sql)
                 				conn.query(sql,function(err,results){
@@ -78,6 +80,7 @@ module.exports.listen = function(app,conn){
 		                			
                 				})
                 			}else{
+                				//如果用户还在封禁期间登录  则不允许登录
                 				res.send({
 			                		code:400,
 			                    	msg:'该用户已被封禁',
@@ -158,15 +161,18 @@ module.exports.listen = function(app,conn){
             if(err){
                 res.send('err')
             }else{
-            	var newLeval =  Number(result[0].leval) + 1
-            	sql = `update user set leval = '${newLeval}' where id = ${req.body.id}`
-                conn.query(sql,function(err,result){
-		            if(err){
-		                res.send('err')
-		            }else{
-		            	res.send('success')
-		            }
-		        })
+            	if(result.length!=0){
+            		var newLeval =  Number(result[0].leval) + 1
+	            	sql = `update user set leval = '${newLeval}' where id = ${req.body.id}`
+	                conn.query(sql,function(err,result){
+			            if(err){
+			                res.send('err')
+			            }else{
+			            	res.send('success')
+			            }
+			        })
+            	}
+            	
             }
         })
     })
@@ -263,6 +269,21 @@ module.exports.listen = function(app,conn){
     	//数据查询
         conn.query(sql,function(err,result){
             res.send('success')
+        })
+    })
+    
+    //判断用户是否为vip用户
+    app.post('/user/isVip',function(req,res){
+    	res.append("Access-Control-Allow-Origin","*");
+    	var sql = `select * from video where u_id = ${req.body.u_id} and (v_status = 1 or v_status = 3)`
+    	console.log(sql)
+    	//数据查询
+        conn.query(sql,function(err,result){
+            if(result.length==0){
+            	res.send('no')
+            }else{
+            	res.send('yes')
+            }
         })
     })
 }

@@ -91,7 +91,10 @@ module.exports.listen = function(app,conn){
     	var sql = `select * from admin where id = ${req.body.id}`
     	console.log(sql)
     	conn.query(sql,function(err,result){
-            res.send(result[0])
+    		if(result.length!=0){
+    			res.send(result[0])
+    		}
+            
         })
     })
     
@@ -114,7 +117,9 @@ module.exports.listen = function(app,conn){
     	var sql = `select setting,video,vip,user,management from admin where id = ${req.body.id}`
     	console.log(sql)
     	conn.query(sql,function(err,result){
-            res.send(result[0])
+            if(result.length!=0){
+    			res.send(result[0])
+    		}
         })
     })
     
@@ -124,15 +129,18 @@ module.exports.listen = function(app,conn){
     	var sql = `select * from admin where id = ${req.body.id}`
     	console.log(sql)
     	conn.query(sql,function(err,result){
-            if(req.body.oldpwd==result[0].password){
-            	sql = `update admin set password = '${req.body.newpwd}' where id = ${req.body.id}`
-            	console.log(sql)
-            	conn.query(sql,function(err,result){
-            		res.send('success')
-            	})
-            }else{
-            	res.send('err')
-            }
+    		if(result.length!=0){
+    			if(req.body.oldpwd==result[0].password){
+	            	sql = `update admin set password = '${req.body.newpwd}' where id = ${req.body.id}`
+	            	console.log(sql)
+	            	conn.query(sql,function(err,result){
+	            		res.send('success')
+	            	})
+	            }else{
+	            	res.send('err')
+	            }
+    		}
+            
         })
     })
 }
