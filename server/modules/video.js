@@ -253,7 +253,7 @@ function video_num(app,conn,id){
 		
     })
 }
-//用户经验+1
+//用户经验+100
 function userleval(app,conn,id){
 	var sql = `update user set leval = leval+100 where id = ${id}` 
 	console.log(sql)

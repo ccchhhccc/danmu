@@ -308,6 +308,10 @@ $(function(){
 		if(!validateLogin()){
 			return
 		}
+		if(userid==videoinfo.u_id){
+			console.log('不能对自己视频投币')
+			return
+		}
 		var total = userinfo.sum+userinfo.coinnum
 		if(total>0){
 			//将弹框文字变换
@@ -586,6 +590,7 @@ $(function(){
 				if(data=='no'){
 					$('#muhu').css({'display':'block'})
 					$('#vipnotic').css({'display':'block'})
+					$('#vipnotic').find('.close').css({'display':'none'})
 					$('video').attr({'src':''})
 				}
 			}
@@ -594,6 +599,11 @@ $(function(){
     
     $('.novip').on('click',function(){
     	location.href = `http://localhost:2255`
+    })
+    
+    $('.close').on('click',function(){
+    	$('#muhu').css({'display':'none'})
+		$('#vipnotic').css({'display':'none'})
     })
     
 })

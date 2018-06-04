@@ -8,6 +8,7 @@ module.exports.listen = function(app,conn){
     	var sql = `insert into dandan(danmu,v_id,addtime,u_id) values('${req.body.danmu}',${req.body.v_id},'${new Date().getTime()}',${req.body.u_id})`
     	console.log(sql)
     	conn.query(sql,function(err,result){
+    		userleval(app,conn,req.body.u_id)
     		res.send(result)
     	})
     })
@@ -30,4 +31,12 @@ module.exports.listen = function(app,conn){
     	})
     })
     
+}
+//用户经验+5
+function userleval(app,conn,id){
+	var sql = `update user set leval = leval+5 where id = ${id}` 
+	console.log(sql)
+	conn.query(sql,function(err,result){
+		
+    })
 }

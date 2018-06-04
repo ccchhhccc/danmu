@@ -335,3 +335,6 @@
 .toChannel{
 	cursor: pointer;
 }
+.close{
+	display: none;
+}

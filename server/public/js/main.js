@@ -163,12 +163,13 @@
                 alert("弹幕过长！");
                 return;
             }
+            //未登录拦截
             if(sessionStorage.getItem('userid')==undefined || sessionStorage.getItem('userid')==0){
             	$('#muhu').css({'display':'block'})
 				$('#layer').css({'display':'block'})
             	return
             }
-            //过滤器
+            //敏感词过滤器
             if(!MyFiter(text)){
 	        	$('#muhu').css({'display':'block'})
 				$('#fiter').css({'display':'block'})
@@ -179,6 +180,24 @@
             var position = $(e.data.that.id + " input[name=danmu_position]:checked").val();
             var size = $(e.data.that.id + " input[name=danmu_size]:checked").val();
             var time = $(e.data.that.id + " .danmu-div").data("nowTime") + 3;
+            
+            //弹幕颜色权限控制
+            if(color!='#ffffff'){
+            	var isVip = colorFiter()
+            	console.log(isVip)
+            	if(!isVip){
+            		//重置颜色为#ffffff
+            		$('.colpick_hex_field').find('input').val('ffffff')
+            		//显示弹窗
+            		$('#vipnotic').find('.close').css({'display':'inline-block'})
+            		$('#vipnotic').find('.novip').css({'display':'none'})
+            		$('#vipnotic').find('p').html('vip用户才可以发送彩色弹幕,视频投稿成功可成为vip')
+            		$('#muhu').css({'display':'block'})
+					$('#vipnotic').css({'display':'block'})
+            		return
+            	}
+            }
+            console.log('pass')
             var textObj = '{ "text":"' + text + '","color":"' + color + '","size":"' + size + '","position":"' + position + '","time":' + time + '}';
             if (e.data.that.options.urlToPostDanmu)
                 $.post(e.data.that.options.urlToPostDanmu, {
@@ -444,7 +463,7 @@
 
 })(jQuery);
 
-//敏感词过滤
+//敏感词过滤器
 function MyFiter(str){
 	var fiter = []
 	$.ajax({
@@ -462,4 +481,27 @@ function MyFiter(str){
 	}
 	console.log('allpass')
 	return true
+}
+
+function colorFiter(){
+	var isVip = ''
+	//判断用户是否为会员
+	$.ajax({
+		type:"post",
+		url:"http://localhost:2255/user/isVip",
+		data:{
+			u_id:sessionStorage.getItem('userid')
+		},
+		async:false,
+		success:function(data){
+			isVip = data
+		}
+	})
+	console.log(isVip)
+	//如果不是会员
+	if(isVip=='no'){
+		return false
+	}else{
+		return true
+	}
 }
