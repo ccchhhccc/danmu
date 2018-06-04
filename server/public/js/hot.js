@@ -30,6 +30,7 @@ $(function(){
 			async:false,
 			success:function(data){
 				var html = `<img class="myname" src="${data.data.headurl}" data-uid="${data.data.id}"/>
+							<a class="logout">注销</a>
 							<i id="toUpload">投稿</i>
 							<a class="myname" data-uid="${data.data.id}">${data.data.name}</a>`
 				$('.my').html(html)
@@ -37,6 +38,17 @@ $(function(){
 			}
 		});
 	}
+	
+	$('.logout').on('click',function(){
+		$.ajax({
+			type:"post",
+			url:"http://localhost:2255/user/logout",
+			async:true,
+			success:function(){
+				location.href = location.href
+			}
+		});
+	})
 	
 	//获取视频
 	var allvideo = []

@@ -1,19 +1,11 @@
 
-//回复模块
+//评论模块
 module.exports.listen = function(app,conn){
     
     //查找评论根据视频id
-    app.post('/reply/id',function(req,res){
+    app.post('/comment/id',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");
-    	var sql = `SELECT
-						u1.NAME as hfname,
-						u2.NAME as plname,
-						c.*	
-					FROM
-						user AS u1
-						LEFT JOIN hf AS c ON u1.id = c.hfuserid
-						LEFT JOIN user AS u2 ON c.pluserid = u2.id
-						where c.v_id = ${req.body.id}`
+    	var sql = `SELECT pl.* , user.name,user.headurl from user,pl where v_id = ${req.body.id} and pl.userid = user.id`
         conn.query(sql,function(err,result){
             if(err){
                 res.send('err')
@@ -27,19 +19,28 @@ module.exports.listen = function(app,conn){
     })
     
     //新增评论
-    app.post('/reply/add',function(req,res){
+    app.post('/comment/add',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");
-    	var sql = `insert into hf values(${req.body.plid},${req.body.hfuserid},'${req.body.hfcontent}','${req.body.time}',${req.body.pluserid},${req.body.v_id})`
+    	var sql = `insert into pl(v_id,userid,time,content) values(${req.body.v_id},${req.body.userid},'${req.body.time}','${req.body.content}')`
     	console.log(sql)
         conn.query(sql,function(err,result){
             if(err){
                 res.send('err')
             }else{
+            	userleval(app,conn,req.body.userid)
                 res.send('success')
             }
         })
+        
     })
-    
-    
-    
+
+}
+
+//用户经验+1
+function userleval(app,conn,id){
+	var sql = `update user set leval = leval+1 where id = ${id}` 
+	console.log(sql)
+	conn.query(sql,function(err,result){
+		
+    })
 }

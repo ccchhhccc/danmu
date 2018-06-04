@@ -119,6 +119,12 @@ module.exports.listen = function(app,conn){
     	}
     })
     
+    //注销账号
+    app.post('/user/logout',function(req,res){
+    	req.session.user = null
+    	res.send('success')
+    })
+    
     //获取用户信息
     app.post('/user/getInfo',function(req,res){
     	res.append("Access-Control-Allow-Origin","*");

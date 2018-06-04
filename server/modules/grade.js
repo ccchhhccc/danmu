@@ -32,10 +32,18 @@ module.exports.listen = function(app,conn){
     	res.append("Access-Control-Allow-Origin","*");
     	var sql = `insert into grade(v_id,u_id,num) values(${req.body.v_id},${req.body.u_id},${req.body.num}) `
     	conn.query(sql,function(err,result){
-	    		res.send('success')
-	    	})
+	    	res.send('success')
+	    })
+    	userleval(app,conn,req.body.u_id)
     })
-   
-   
     
+}
+
+//用户经验+10
+function userleval(app,conn,id){
+	var sql = `update user set leval = leval+10 where id = ${id}` 
+	console.log(sql)
+	conn.query(sql,function(err,result){
+		
+    })
 }

@@ -80,10 +80,12 @@ module.exports.listen = function(app,conn){
     	console.log(sql)
     	conn.query(sql,function(err,result){
     		if(result.length!=0){
+    			video_num(app,conn,req.body.id)
     			res.send(result[0])	
     		}
     		
 	    })
+    	
     })
     
     //审核     通过状态为1，退回则状态为2
@@ -235,9 +237,25 @@ module.exports.listen = function(app,conn){
     })
      
 }
-//用户视频-1
+//用户投币视频-1
 function userpay(app,conn,id){
 	var sql = `update user set coinnum = coinnum-1 where id = ${id}` 
+	console.log(sql)
+	conn.query(sql,function(err,result){
+		userleval(app,conn,id)
+    })
+}
+//播放量+1
+function video_num(app,conn,id){
+	var sql = `update video set v_num = v_num+1 where id = ${id}` 
+	console.log(sql)
+	conn.query(sql,function(err,result){
+		
+    })
+}
+//用户经验+1
+function userleval(app,conn,id){
+	var sql = `update user set leval = leval+100 where id = ${id}` 
 	console.log(sql)
 	conn.query(sql,function(err,result){
 		
