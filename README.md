@@ -7,6 +7,9 @@ http://118.24.4.133:2255/
 # 对应后台管理系统的线上地址
 http://118.24.4.133:2266/
 
+# 弹幕插件
+https://github.com/chiruom/DanmuPlayer
+
 # 申请阿里云短信服务
 https://dayu.aliyun.com/product/sms?spm=a3142.7791109.0.0.4eff69290s9sbZ
 
